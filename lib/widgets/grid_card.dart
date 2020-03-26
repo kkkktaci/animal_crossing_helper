@@ -1,0 +1,34 @@
+import 'package:animal_crossing_helper/models/catchable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
+class GridCard extends StatelessWidget {
+  Catchable catchable;
+  GridCard({this.catchable});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: InkWell(
+        onTap: () => {},
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Image(
+                image: CachedNetworkImageProvider(catchable.image),
+                width: 60.0,
+                height: 60.0,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Text(catchable.name, maxLines: 1, overflow: TextOverflow.ellipsis,),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
