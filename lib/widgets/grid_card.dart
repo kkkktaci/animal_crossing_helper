@@ -10,7 +10,7 @@ class GridCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => {},
+        onTap: () => Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

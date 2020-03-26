@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/router/catchable_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -24,6 +25,9 @@ class App extends StatelessWidget {
         title: 'Animal Crossing Helper',
         theme: _themeData,
         home: Home(),
+        routes: {
+          '/catchable_detail': (context) => CatchableDetail()
+        },
       ),
     );
   }

@@ -26,9 +26,9 @@ List<Catchable> parseFishList(String html) {
       String name = item.children[0].children[INNER_NAME_INDEX].text;
       String place = item.attributes['data-param1'];
       String shadow = item.attributes['data-param2'];
-      List<String> north = item.attributes['data-param3'].split("、");
-      List<String> south = item.attributes['data-param4'].split("、");
-      List<String> time = item.attributes['data-param5'].split("、");
+      List<String> north = item.attributes['data-param3'].split(", ");
+      List<String> south = item.attributes['data-param4'].split(", ");
+      List<String> time = item.attributes['data-param5'].split(", ");
       String price = item.children[PRICE_INDEX].text;
 
       result.add(Catchable(
