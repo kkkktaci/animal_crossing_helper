@@ -1,4 +1,4 @@
-package com.example.animal_crossing_helper
+package com.kk.animal_crossing_helper
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
