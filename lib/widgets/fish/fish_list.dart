@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_actions.dart';
@@ -22,13 +23,17 @@ class _FishListState extends State<FishList> with AutomaticKeepAliveClientMixin 
     );
   }
 
+  void _gotoDetail(BuildContext context, Catchable catchable) {
+    Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CatchableGrid(
-        detailRouteName: '/catchable_detail',
         fetchData: fetchFish,
         converter: _fromStore,
+        onItemTap: _gotoDetail
       )
     );
   }

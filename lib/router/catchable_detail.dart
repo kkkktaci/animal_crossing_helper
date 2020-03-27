@@ -1,4 +1,5 @@
 import 'package:animal_crossing_helper/models/catchable.dart';
+import 'package:animal_crossing_helper/models/type.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ class CatchableDetail extends StatelessWidget {
   Widget extra;
   CatchableDetail({this.catchable, this.extra});
 
-  Widget _buildInfoRow(String title, String content) {
+  Widget _buildInfoRow(BuildContext context, String title, String content) {
     return Padding(
       padding: EdgeInsets.only(bottom: 0.5),
       child: Row(
@@ -19,13 +20,13 @@ class CatchableDetail extends StatelessWidget {
             height: 30,
             padding: EdgeInsets.only(left: 16),
             alignment: AlignmentDirectional.centerStart,
-            child: Text(title),
+            child: Text(title, style: Theme.of(context).textTheme.display1,),
           ),
           Container(
               height: 30,
               padding: EdgeInsets.only(left: 6),
               alignment: AlignmentDirectional.centerStart,
-              child: Text(content)),
+              child: Text(content, style: Theme.of(context).textTheme.display1,)),
         ],
       ),
     );
@@ -36,12 +37,12 @@ class CatchableDetail extends StatelessWidget {
       padding: EdgeInsets.only(top: 10),
       child: Column(
         children: <Widget>[
-          _buildInfoRow('价格', catchable.price),
-          _buildInfoRow('捕获位置', catchable.activePlace),
-          _buildInfoRow('北半球月份', '${catchable.north.first} - ${catchable.north.last}'),
-          _buildInfoRow('南半球月份', '${catchable.south.first} - ${catchable.south.last}'),
-          _buildInfoRow('出现时间', '${catchable.time.first} - ${catchable.time.last}'),
-          _buildInfoRow('影子大小', catchable.extra),
+          _buildInfoRow(context, '价格', catchable.price),
+          _buildInfoRow(context, '捕获位置', catchable.activePlace),
+          _buildInfoRow(context, '北半球月份', '${catchable.north.first} - ${catchable.north.last}'),
+          _buildInfoRow(context, '南半球月份', '${catchable.south.first} - ${catchable.south.last}'),
+          _buildInfoRow(context, '出现时间', '${catchable.time.first} - ${catchable.time.last}'),
+          _buildInfoRow(context, this.catchable.type == TYPE.FISH ? '鱼影大小' : '出现天气', catchable.extra),
         ],
       ),
     );
@@ -72,7 +73,7 @@ class CatchableDetail extends StatelessWidget {
                     height: 25,
                     color: Colors.grey[200],
                     child: Center(
-                      child: Text('基本信息'),
+                      child: Text('基本信息', style: Theme.of(context).textTheme.display2,),
                     ),
                   ),
                   _buildInfo(context)

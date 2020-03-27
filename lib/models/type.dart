@@ -1,0 +1,4 @@
+enum TYPE {
+  FISH,
+  INSECT
+}

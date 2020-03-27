@@ -3,15 +3,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GridCard extends StatelessWidget {
-  String detailRouteName;
+  Function(BuildContext, Catchable) onTap;
   Catchable catchable;
-  GridCard({this.detailRouteName, this.catchable});
+  GridCard({this.onTap, this.catchable});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => Navigator.of(context).pushNamed(this.detailRouteName, arguments: catchable),
+        onTap: () => this.onTap(context, catchable),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -25,7 +25,12 @@ class GridCard extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
-              child: Text(catchable.name, maxLines: 1, overflow: TextOverflow.ellipsis,),
+              child: Text(
+                catchable.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.display1,
+              ),
             )
           ],
         ),

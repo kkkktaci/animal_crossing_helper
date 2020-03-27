@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/models/type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'catchable.g.dart';
@@ -5,7 +6,7 @@ part 'catchable.g.dart';
 @JsonSerializable()
 
 class Catchable {
-  Catchable({this.name, this.image, this.price, this.north, this.south, this.time, this.activePlace, this.extra});
+  Catchable({this.name, this.image, this.price, this.north, this.south, this.time, this.activePlace, this.extra, this.type});
 
   String name;
   String image;
@@ -20,6 +21,7 @@ class Catchable {
   String activePlace;
   // 鱼影 或 昆虫出现天气
   String extra;
+  TYPE type;
 
   factory Catchable.fromJson(Map<String, dynamic> json) => _$CatchableFromJson(json);
   Map<String, dynamic> toJson() => _$CatchableToJson(this);

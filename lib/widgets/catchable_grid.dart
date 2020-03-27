@@ -6,11 +6,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 class CatchableGrid extends StatefulWidget {
-  String detailRouteName;
+  Function(BuildContext, Catchable) onItemTap;
   Function fetchData;
   Function(Store<AppState>) converter;
 
-  CatchableGrid({this.detailRouteName, this.fetchData, this.converter});
+  CatchableGrid({this.onItemTap, this.fetchData, this.converter});
 
   @override
   _CatchableGridState createState() => _CatchableGridState();
@@ -35,7 +35,7 @@ class _CatchableGridState extends State<CatchableGrid> {
               childAspectRatio: 1.0
             ),
             itemBuilder: (context, index) {
-              return GridCard(detailRouteName: widget.detailRouteName, catchable: vm.data[index]);
+              return GridCard(onTap: widget.onItemTap, catchable: vm.data[index]);
             },
             itemCount: vm.data.length,
           ));

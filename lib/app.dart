@@ -13,8 +13,12 @@ class App extends StatelessWidget {
 
   final _themeData = ThemeData(
     primaryColor: Colors.green[300],
-    // TODO: Add textTheme
-    appBarTheme: AppBarTheme(color: Colors.green[300], iconTheme: IconThemeData(color: Colors.white))
+    // TODO: Add textTheme in app bar theme
+    appBarTheme: AppBarTheme(color: Colors.green[300], iconTheme: IconThemeData(color: Colors.white)),
+    textTheme: TextTheme(
+      display1: TextStyle(fontSize: 20, color: Colors.black),
+      display2: TextStyle(fontSize: 16, color: Colors.black)
+    ),
   );
 
   @override
