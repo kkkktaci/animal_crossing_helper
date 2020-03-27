@@ -1,18 +1,18 @@
 import 'package:animal_crossing_helper/models/catchable.dart';
+import 'package:animal_crossing_helper/redux/insect/insect_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-import 'package:animal_crossing_helper/redux/fish/fish_actions.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:animal_crossing_helper/widgets/catchable_grid.dart';
 
-class FishList extends StatelessWidget {
+class InsectList extends StatelessWidget {
 
   CatchableViewModal _fromStore(Store<AppState> store) {
-    var fishState = store.state.fish;
+    var insectState = store.state.insects;
     return CatchableViewModal(
-      fetching: fishState.fetching,
-      data: fishState.fish,
-      error: fishState.error
+      fetching: insectState.fetching,
+      data: insectState.insects,
+      error: insectState.error
     );
   }
 
@@ -22,10 +22,10 @@ class FishList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('>>>> build fish list');
+    print('>>>> build insect list');
     return Container(
       child: CatchableGrid(
-        fetchData: fetchFish,
+        fetchData: fetchInsects,
         converter: _fromStore,
         onItemTap: _gotoDetail
       )

@@ -16,9 +16,10 @@ class CatchableGrid extends StatefulWidget {
   _CatchableGridState createState() => _CatchableGridState();
 }
 
-class _CatchableGridState extends State<CatchableGrid> {
+class _CatchableGridState extends State<CatchableGrid> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       child: StoreConnector<AppState, CatchableViewModal>(
         distinct: true,
@@ -43,6 +44,9 @@ class _CatchableGridState extends State<CatchableGrid> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class CatchableViewModal {

@@ -1,4 +1,5 @@
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
+import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -7,14 +8,14 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   int _currentBottomIndex = 0;
   final BottomNavigationBarType _type = BottomNavigationBarType.fixed;
   final PageController _pageController = PageController();
 
   final _contents = [
     FishList(),
-    Container(width: 300, height: 300, color: Colors.green,),
+    InsectList(),
     Container(width: 300, height: 300, color: Colors.blue,),
   ];
 
@@ -58,6 +59,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // 想要保持state的话，加AutomaticKeepAliveClientMixin的同时也需要加super.build
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         // TODO: 需要一个leading图标
@@ -81,4 +84,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
