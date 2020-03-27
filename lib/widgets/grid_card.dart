@@ -24,7 +24,7 @@ class GridCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 catchable.name,
                 maxLines: 1,
