@@ -106,14 +106,18 @@ class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Container();
+    return _buildList(context);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    return _buildList(context);
+  }
+  
+  Widget _buildList(BuildContext context) {
     List<Catchable> suggestions = query.isEmpty
-      ? []
-      : this._data?.where((el) => el.name.contains(query)).toList();
+          ? []
+          : this._data?.where((el) => el.name.contains(query)).toList();
     print(suggestions);
     return ListView.builder(
       itemCount: suggestions.length,
@@ -137,7 +141,6 @@ class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
       }
     );
   }
-  
 }
 
 class CatchableViewModal {
