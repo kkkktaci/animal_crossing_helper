@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/widgets/bottom_nav_bar.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
 import 'package:flutter/material.dart';
@@ -74,11 +75,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         children: _contents,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color.fromARGB(255, 248, 251, 226),
         currentIndex: _currentBottomIndex,
         type: _type,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
+        selectedItemColor: Color.fromARGB(255, 250, 217, 145),
+        unselectedItemColor: Color.fromARGB(255, 128, 125, 115),
         items: _buildBottomBarItems(),
         onTap: _onBottomBarTap,
       ),
