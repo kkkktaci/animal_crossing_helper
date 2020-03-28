@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/models/type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,11 +6,19 @@ part 'catchable.g.dart';
 
 @JsonSerializable()
 
-class Catchable {
-  Catchable({this.name, this.image, this.price, this.north, this.south, this.time, this.activePlace, this.extra, this.type});
-
-  String name;
-  String image;
+class Catchable extends NameThing {
+  Catchable({
+    String name,
+    String image,
+    this.price,
+    this.north,
+    this.south,
+    this.time,
+    this.activePlace,
+    this.extra,
+    this.type
+  }) : super(name: name, image: image);
+  
   String price;
   // 北半球出现月份
   List<String> north;

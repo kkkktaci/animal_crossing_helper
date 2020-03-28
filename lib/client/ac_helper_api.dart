@@ -3,8 +3,7 @@ import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/type.dart';
 import 'package:animal_crossing_helper/parsers/parse_animal_list.dart';
-import 'package:animal_crossing_helper/parsers/parse_fish_list.dart';
-import 'package:animal_crossing_helper/models/type.dart';
+import 'package:animal_crossing_helper/parsers/parse_catchable_list.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
