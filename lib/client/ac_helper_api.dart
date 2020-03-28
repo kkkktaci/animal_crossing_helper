@@ -1,6 +1,8 @@
 import 'package:animal_crossing_helper/env.dart';
+import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/type.dart';
+import 'package:animal_crossing_helper/parsers/parse_animal_list.dart';
 import 'package:animal_crossing_helper/parsers/parse_fish_list.dart';
 import 'package:animal_crossing_helper/models/type.dart';
 import 'package:dio/dio.dart';
@@ -39,4 +41,13 @@ class Api {
     var html = await htmlDio.get('/虫图鉴');
     return parseCatchableList(html.data, TYPE.INSECT);
   }
+
+  Future<List<Animal>> getAnimalList() async {
+    var html = await htmlDio.get('/小动物图鉴');
+    return parseAnimalList(html.data);
+  }
+
+  // Future<List<Catchable>> getAnimalDetail(String animalName) async {
+  //   var html = await htmlDio.get('/$animalName');
+  // }
 }
