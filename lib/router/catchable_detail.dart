@@ -53,7 +53,7 @@ class CatchableDetail extends StatelessWidget {
     catchable = ModalRoute.of(context).settings.arguments as Catchable;
     return Scaffold(
       appBar: AppBar(
-        title: Text(catchable.name),
+        title: Text(catchable.name, style: TextStyle(color: Colors.white),),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

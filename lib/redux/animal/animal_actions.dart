@@ -28,3 +28,35 @@ ThunkAction<AppState> fetchAnimalList() {
     }
   };
 }
+
+class FetchAnimalDetailStart {}
+
+class FetchAnimalDetailDone {
+  String name;
+  Animal animal;
+  FetchAnimalDetailDone({this.name, this.animal});
+}
+
+class FetchAnimalDetailError {
+  Object error;
+  FetchAnimalDetailError({this.error});
+}
+
+ThunkAction<AppState> fetchAnimalDetailIfNeeded(String name) {
+  return (Store<AppState> store) {
+    if(store.state.animal.animal.singleWhere((item) => item.name == name).goal != null) return;
+    store.dispatch(fetchAnimalDetail(name));
+  };
+}
+
+ThunkAction<AppState> fetchAnimalDetail(String name) {
+  return (Store<AppState> store) async {
+    store.dispatch(FetchAnimalDetailStart());
+
+    try {
+      store.dispatch(FetchAnimalDetailDone(name: name, animal: await Api().getAnimalDetail(name)));
+    } catch (e) {
+      store.dispatch(FetchAnimalDetailError(error: e.toString()));
+    }
+  };
+}

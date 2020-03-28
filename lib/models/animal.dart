@@ -17,6 +17,7 @@ class Animal extends NameThing {
   String motto;
   // 外文名称
   String foreignWord;
+  String goal;
 
   Animal({
     String image,
@@ -27,8 +28,24 @@ class Animal extends NameThing {
     this.birthday,
     this.byword,
     this.motto,
-    this.foreignWord
+    this.foreignWord,
+    this.goal
   }) : super(name: name, image: image);
+
+  Animal clone() {
+    return Animal(
+      image: this.image,
+      name: this.name,
+      sex: this.sex,
+      nature: this.nature,
+      race: this.race,
+      birthday: this.birthday,
+      byword: this.byword,
+      motto: this.motto,
+      foreignWord: this.foreignWord,
+      goal: this.goal
+    );
+  }
 
   factory Animal.fromJson(Map<String, dynamic> json) => _$AnimalFromJson(json);
   Map<String, dynamic> toJson() => _$AnimalToJson(this);

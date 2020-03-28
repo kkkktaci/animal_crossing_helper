@@ -17,7 +17,7 @@ class AnimalList extends StatelessWidget {
   }
 
   void _gotoDetail(BuildContext context, NameThing catchable) {
-    // Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable);
+    Navigator.of(context).pushNamed('/animal_detail', arguments: catchable);
   }
 
   @override

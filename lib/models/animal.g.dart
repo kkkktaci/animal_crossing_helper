@@ -17,7 +17,7 @@ Animal _$AnimalFromJson(Map<String, dynamic> json) {
     byword: json['byword'] as String,
     motto: json['motto'] as String,
     foreignWord: json['foreignWord'] as String,
-  );
+  )..goal = json['goal'] as String;
 }
 
 Map<String, dynamic> _$AnimalToJson(Animal instance) => <String, dynamic>{
@@ -30,4 +30,5 @@ Map<String, dynamic> _$AnimalToJson(Animal instance) => <String, dynamic>{
       'byword': instance.byword,
       'motto': instance.motto,
       'foreignWord': instance.foreignWord,
+      'goal': instance.goal,
     };

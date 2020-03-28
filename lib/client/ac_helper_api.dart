@@ -2,6 +2,7 @@ import 'package:animal_crossing_helper/env.dart';
 import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/type.dart';
+import 'package:animal_crossing_helper/parsers/parse_animal_detail.dart';
 import 'package:animal_crossing_helper/parsers/parse_animal_list.dart';
 import 'package:animal_crossing_helper/parsers/parse_catchable_list.dart';
 import 'package:dio/dio.dart';
@@ -46,7 +47,8 @@ class Api {
     return parseAnimalList(html.data);
   }
 
-  // Future<List<Catchable>> getAnimalDetail(String animalName) async {
-  //   var html = await htmlDio.get('/$animalName');
-  // }
+  Future<Animal> getAnimalDetail(String animalName) async {
+    var html = await htmlDio.get('/$animalName');
+    return parseAnimalDetail(html.data);
+  }
 }

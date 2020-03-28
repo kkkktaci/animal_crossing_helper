@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/router/animal_detail.dart';
 import 'package:animal_crossing_helper/router/catchable_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
@@ -17,7 +18,8 @@ class App extends StatelessWidget {
     appBarTheme: AppBarTheme(color: Colors.green[300], iconTheme: IconThemeData(color: Colors.white)),
     textTheme: TextTheme(
       display1: TextStyle(fontSize: 18, color: Colors.black),
-      display2: TextStyle(fontSize: 16, color: Colors.black)
+      display2: TextStyle(fontSize: 16, color: Colors.black),
+      display3: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
     ),
   );
 
@@ -30,7 +32,8 @@ class App extends StatelessWidget {
         theme: _themeData,
         home: Home(),
         routes: {
-          '/catchable_detail': (context) => CatchableDetail()
+          '/catchable_detail': (context) => CatchableDetail(),
+          '/animal_detail': (context) => AnimalDetail(),
         },
       ),
     );
