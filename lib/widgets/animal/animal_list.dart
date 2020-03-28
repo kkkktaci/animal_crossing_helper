@@ -1,31 +1,31 @@
 import 'package:animal_crossing_helper/models/name_thing.dart';
-import 'package:animal_crossing_helper/redux/insect/insect_actions.dart';
+import 'package:animal_crossing_helper/redux/animal/animal_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:animal_crossing_helper/widgets/catchable_grid.dart';
 
-class InsectList extends StatelessWidget {
+class AnimalList extends StatelessWidget {
 
   NameThingViewModal _fromStore(Store<AppState> store) {
-    var insectState = store.state.insects;
+    var animalState = store.state.animal;
     return NameThingViewModal(
-      fetching: insectState.fetching,
-      data: insectState.insects,
-      error: insectState.error
+      fetching: animalState.fetching,
+      data: animalState.animal,
+      error: animalState.error
     );
   }
 
   void _gotoDetail(BuildContext context, NameThing catchable) {
-    Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable);
+    // Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('>>>> build insect list');
+    print('>>>> build animal list');
     return Container(
       child: CatchableGrid(
-        fetchData: fetchInsects,
+        fetchData: fetchAnimalList,
         converter: _fromStore,
         onItemTap: _gotoDetail
       )

@@ -21,8 +21,8 @@ Animal _$AnimalFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AnimalToJson(Animal instance) => <String, dynamic>{
-      'image': instance.image,
       'name': instance.name,
+      'image': instance.image,
       'sex': instance.sex,
       'nature': instance.nature,
       'race': instance.race,

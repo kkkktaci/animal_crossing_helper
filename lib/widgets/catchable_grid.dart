@@ -1,4 +1,4 @@
-import 'package:animal_crossing_helper/models/catchable.dart';
+import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 class CatchableGrid extends StatefulWidget {
-  Function(BuildContext, Catchable) onItemTap;
+  Function(BuildContext, NameThing) onItemTap;
   Function fetchData;
   Function(Store<AppState>) converter;
 
@@ -19,9 +19,9 @@ class CatchableGrid extends StatefulWidget {
 class _CatchableGridState extends State<CatchableGrid>
     with AutomaticKeepAliveClientMixin {
 
-  List<Catchable> _data;
+  List<NameThing> _data;
 
-  void _onSearchTap(BuildContext context, List<Catchable> data) async {
+  void _onSearchTap(BuildContext context, List<NameThing> data) async {
     if (_data.length <= 0) return;
     await showSearch(
       context: context,
@@ -46,7 +46,7 @@ class _CatchableGridState extends State<CatchableGrid>
             ),
           ),
           Expanded(
-            child: StoreConnector<AppState, CatchableViewModal>(
+            child: StoreConnector<AppState, NameThingViewModal>(
               distinct: true,
               converter: widget.converter,
               onInit: (store) => store.dispatch(widget.fetchData()),
@@ -61,7 +61,7 @@ class _CatchableGridState extends State<CatchableGrid>
                       crossAxisCount: 3, childAspectRatio: 1.0),
                   itemBuilder: (context, index) {
                     return GridCard(
-                        onTap: widget.onItemTap, catchable: vm.data[index]);
+                        onTap: widget.onItemTap, nameThing: vm.data[index]);
                   },
                   itemCount: vm.data.length,
                 ));
@@ -77,10 +77,10 @@ class _CatchableGridState extends State<CatchableGrid>
   bool get wantKeepAlive => true;
 }
 
-class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
-  List<Catchable> _data;
-  Function(BuildContext, Catchable) _onItemTap;
-  _SearchCatchableDelegate(List<Catchable> _data, Function(BuildContext, Catchable) tap) {
+class _SearchCatchableDelegate extends SearchDelegate<NameThing> {
+  List<NameThing> _data;
+  Function(BuildContext, NameThing) _onItemTap;
+  _SearchCatchableDelegate(List<NameThing> _data, Function(BuildContext, NameThing) tap) {
     this._data = _data;
     this._onItemTap = tap;
   }
@@ -115,10 +115,9 @@ class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
   }
   
   Widget _buildList(BuildContext context) {
-    List<Catchable> suggestions = query.isEmpty
+    List<NameThing> suggestions = query.isEmpty
           ? []
           : this._data?.where((el) => el.name.contains(query)).toList();
-    print(suggestions);
     return ListView.builder(
       itemCount: suggestions.length,
       itemBuilder: (context, index) {
@@ -130,7 +129,6 @@ class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(suggestions[index].name, style: Theme.of(context).textTheme.display2,),
                 Divider(color: Colors.grey,)
@@ -143,17 +141,17 @@ class _SearchCatchableDelegate extends SearchDelegate<Catchable> {
   }
 }
 
-class CatchableViewModal {
+class NameThingViewModal {
   bool fetching;
-  List<Catchable> data;
+  List<NameThing> data;
   Object error;
 
-  CatchableViewModal({this.fetching, this.data, this.error});
+  NameThingViewModal({this.fetching, this.data, this.error});
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CatchableViewModal &&
+      other is NameThingViewModal &&
           runtimeType == other.runtimeType &&
           fetching == other.fetching &&
           data == other.data &&

@@ -1,4 +1,4 @@
-import 'package:animal_crossing_helper/models/catchable.dart';
+import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_actions.dart';
@@ -7,16 +7,16 @@ import 'package:animal_crossing_helper/widgets/catchable_grid.dart';
 
 class FishList extends StatelessWidget {
 
-  CatchableViewModal _fromStore(Store<AppState> store) {
+  NameThingViewModal _fromStore(Store<AppState> store) {
     var fishState = store.state.fish;
-    return CatchableViewModal(
+    return NameThingViewModal(
       fetching: fishState.fetching,
       data: fishState.fish,
       error: fishState.error
     );
   }
 
-  void _gotoDetail(BuildContext context, Catchable catchable) {
+  void _gotoDetail(BuildContext context, NameThing catchable) {
     Navigator.of(context).pushNamed('/catchable_detail', arguments: catchable);
   }
 

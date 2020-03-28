@@ -1,4 +1,4 @@
-import 'package:animal_crossing_helper/widgets/bottom_nav_bar.dart';
+import 'package:animal_crossing_helper/widgets/animal/animal_list.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   final _contents = [
     FishList(),
     InsectList(),
-    Container(width: 300, height: 300, color: Colors.blue,),
+    AnimalList(),
   ];
 
 
