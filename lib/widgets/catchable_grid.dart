@@ -116,22 +116,22 @@ class _SearchCatchableDelegate extends SearchDelegate<NameThing> {
   }
   
   Widget _buildList(BuildContext context) {
-    List<NameThing> suggestions = query.isEmpty
+    List<NameThing> result = query.isEmpty
           ? []
           : this._data?.where((el) => el.name.contains(query)).toList();
     return ListView.builder(
-      itemCount: suggestions.length,
+      itemCount: result.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
             close(context, null);
-            this._onItemTap(context, this._data[index]);
+            this._onItemTap(context, result[index]);
           },
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
-                Text(suggestions[index].name, style: Theme.of(context).textTheme.display2,),
+                Text(result[index].name, style: Theme.of(context).textTheme.display2,),
                 Divider(color: Colors.grey,)
               ],
             )
