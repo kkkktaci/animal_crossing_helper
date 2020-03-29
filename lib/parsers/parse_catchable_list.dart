@@ -22,8 +22,13 @@ List<Catchable> parseCatchableList(String html, TYPE type) {
   fishList.removeAt(0);
   try {
     fishList.forEach((item) {
-      Element img = item.getElementsByClassName('img-kk')[0];
-      String image = img.attributes['src'];
+      String image;
+      try {
+        Element img = item.getElementsByClassName('img-kk')[0];
+        image = img.attributes['src'];
+      } catch (e) {
+        image = '';
+      }
       String name = item.children[0].children[INNER_NAME_INDEX].text;
       String place = item.attributes['data-param1'];
       // 鱼影或者昆虫出现天气

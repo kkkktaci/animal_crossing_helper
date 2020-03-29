@@ -17,8 +17,13 @@ List<Animal> parseAnimalList(String html) {
   animalList.removeAt(0);
   try {
     animalList.forEach((item) {
-      Element img = item.getElementsByClassName('img-kk')[0];
-      String image = img.attributes['src'];
+      String image;
+      try {
+        Element img = item.getElementsByClassName('img-kk')[0];
+        image = img.attributes['src'];
+      } catch (e) {
+        image = '';
+      }
       String name = item.children[0].children[INNER_NAME_INDEX].text;
       String sex = item.attributes['data-param1'];
       String race = item.attributes['data-param2'];

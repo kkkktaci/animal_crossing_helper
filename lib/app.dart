@@ -1,9 +1,10 @@
-import 'package:animal_crossing_helper/router/animal_detail.dart';
-import 'package:animal_crossing_helper/router/catchable_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:bot_toast/bot_toast.dart';
 
+import 'package:animal_crossing_helper/router/animal_detail.dart';
+import 'package:animal_crossing_helper/router/catchable_detail.dart';
 import 'package:animal_crossing_helper/router/home.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 
@@ -27,14 +28,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider(
       store: store,
-      child: MaterialApp(
-        title: 'Animal Crossing Helper',
-        theme: _themeData,
-        home: Home(),
-        routes: {
-          '/catchable_detail': (context) => CatchableDetail(),
-          '/animal_detail': (context) => AnimalDetail(),
-        },
+      child: BotToastInit(
+        child: MaterialApp(
+          title: 'Animal Crossing Helper',
+          theme: _themeData,
+          navigatorObservers: [BotToastNavigatorObserver()],
+          home: Home(),
+          routes: {
+            '/catchable_detail': (context) => CatchableDetail(),
+            '/animal_detail': (context) => AnimalDetail(),
+          },
+        ),
       ),
     );
   }

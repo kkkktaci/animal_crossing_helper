@@ -9,8 +9,9 @@ class CatchableGrid extends StatefulWidget {
   Function(BuildContext, NameThing) onItemTap;
   Function fetchData;
   Function(Store<AppState>) converter;
+  Function(List<NameThing> data) onFetchDoneCallback;
 
-  CatchableGrid({this.onItemTap, this.fetchData, this.converter});
+  CatchableGrid({this.onItemTap, this.fetchData, this.converter, this.onFetchDoneCallback});
 
   @override
   _CatchableGridState createState() => _CatchableGridState();
@@ -49,7 +50,7 @@ class _CatchableGridState extends State<CatchableGrid>
             child: StoreConnector<AppState, NameThingViewModal>(
               distinct: true,
               converter: widget.converter,
-              onInit: (store) => store.dispatch(widget.fetchData()),
+              onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
               builder: (context, vm) {
                 if (vm.fetching) {
                   return Text('loading');
