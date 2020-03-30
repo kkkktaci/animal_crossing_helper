@@ -5,6 +5,7 @@ import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 
+// fetch animal list
 
 class FetchAnimalListStart {}
 
@@ -33,6 +34,8 @@ ThunkAction<AppState> fetchAnimalList(Function(List<NameThing>) onDoneCallback) 
     }
   };
 }
+
+// fetch animal detail
 
 class FetchAnimalDetailStart {}
 
@@ -64,4 +67,10 @@ ThunkAction<AppState> fetchAnimalDetail(String name) {
       store.dispatch(FetchAnimalDetailError(error: e.toString()));
     }
   };
+}
+
+// update animal mark flag
+class ToggleAnimalMark {
+  String name;
+  ToggleAnimalMark({this.name});
 }
