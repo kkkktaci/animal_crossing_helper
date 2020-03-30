@@ -1,6 +1,8 @@
 import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
+import 'package:flare_flutter/asset_provider.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -53,7 +55,11 @@ class _CatchableGridState extends State<CatchableGrid>
               onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
               builder: (context, vm) {
                 if (vm.fetching) {
-                  return Text('loading');
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    child: FlareActor('assets/loading.flr', animation: 'Alarm',)
+                  );
                 }
 
                 _data = vm.data;
