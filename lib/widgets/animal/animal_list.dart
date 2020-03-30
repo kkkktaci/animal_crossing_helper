@@ -59,6 +59,19 @@ class AnimalList extends StatelessWidget {
       tearSpan
     ];
 
+    // 查找今天的生日中是否有关注的小动物
+    String islanderString;
+    List<Animal> markAnimal = animal.where((item) => item.isMarked).toList();
+    if (markAnimal.length > 0) {
+      islanderString = markAnimal.map((item) => item.name).toList().join(',');
+      content.addAll([
+        TextSpan(text: '\n'),
+        TextSpan(text: '其中 '),
+        TextSpan(text: islanderString, style: TextStyle(color: Colors.red[200], fontWeight: FontWeight.bold)),
+        TextSpan(text: ' 是你关注的哦!')
+      ]);
+    }
+
     return Material(
       elevation: 8,
       borderRadius: BorderRadiusDirectional.all(Radius.circular(16)),
