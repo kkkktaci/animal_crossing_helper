@@ -68,7 +68,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       appBar: AppBar(
         // TODO: 需要一个leading图标
         title: Text('Animal Crossing Helper', style: TextStyle(color: Colors.white)),
-        actions: _buildAppBarActions(),
+        // actions: _buildAppBarActions(),
       ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),

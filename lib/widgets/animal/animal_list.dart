@@ -32,8 +32,7 @@ class AnimalList extends StatelessWidget {
 
   void _showBirthdayNotification(List<NameThing> data) {
     var dateTime = DateTime.now();
-    // var today = '${dateTime.month}月${dateTime.day}日';
-    var today = '12月1日';
+    var today = '${dateTime.month}月${dateTime.day}日';
     List<Animal> result = data.where((item) => (item as Animal).birthday.contains(today)).toList();
     if (result.length < 1) return;
     BotToast.showCustomNotification(
