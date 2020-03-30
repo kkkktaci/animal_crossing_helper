@@ -18,6 +18,8 @@ class Animal extends NameThing {
   // 外文名称
   String foreignWord;
   String goal;
+  // 是否关注, 不来自api
+  bool isMarked;
 
   Animal({
     String image,
@@ -29,7 +31,8 @@ class Animal extends NameThing {
     this.byword,
     this.motto,
     this.foreignWord,
-    this.goal
+    this.goal,
+    this.isMarked = false
   }) : super(name: name, image: image);
 
   Animal clone() {
@@ -43,7 +46,8 @@ class Animal extends NameThing {
       byword: this.byword,
       motto: this.motto,
       foreignWord: this.foreignWord,
-      goal: this.goal
+      goal: this.goal,
+      isMarked: this.isMarked
     );
   }
 
