@@ -54,7 +54,7 @@ class _CatchableGridState extends State<CatchableGrid>
               converter: widget.converter,
               onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
               builder: (context, vm) {
-                if (vm.fetching) {
+                if (vm.fetching && vm.data.length < 1) {
                   return Container(
                     width: 100,
                     height: 100,

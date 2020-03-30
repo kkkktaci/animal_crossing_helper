@@ -3,13 +3,13 @@ import 'package:animal_crossing_helper/redux/fish/fish_actions.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_state.dart';
 
 FishState _onFetch(FishState state, FetchFishStart action) =>
-  FishState.fetching();
+  state.copyWith(fish: state.fish, fetching: true, error: null);
 
 FishState _onDone(FishState state, FetchFishDone action) =>
   state.copyWith(fish: action.data, fetching: false, error: null);
 
 FishState _onError(FishState state, FetchFishError action) =>
-  FishState.error(action.error);
+  state.copyWith(fish: state.fish, fetching: false, error: action.error);
 
 final fishReducer = combineReducers<FishState>([
   TypedReducer<FishState, FetchFishStart>(_onFetch),

@@ -14,20 +14,6 @@ class InsectState {
       error: null
     );
 
-  factory InsectState.fetching() =>
-    InsectState(
-      insects: List<Catchable>(),
-      fetching: true,
-      error: null
-    );
-
-  factory InsectState.error(Object error) =>
-    InsectState(
-      insects: List<Catchable>(),
-      fetching: false,
-      error: error
-    );
-
   InsectState copyWith({List<Catchable> insects, bool fetching, Object error}) {
     return InsectState(insects: insects, fetching: fetching, error: error);
   }

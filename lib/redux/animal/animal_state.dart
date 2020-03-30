@@ -1,5 +1,3 @@
-
-
 import 'package:animal_crossing_helper/models/animal.dart';
 
 class AnimalState {
@@ -15,22 +13,6 @@ class AnimalState {
       animal: List<Animal>(),
       fetching: false,
       error: null,
-      detailError: null
-    );
-
-  factory AnimalState.fetching() =>
-    AnimalState(
-      animal: List<Animal>(),
-      fetching: true,
-      error: null,
-      detailError: null
-    );
-
-  factory AnimalState.error(Object error) =>
-    AnimalState(
-      animal: List<Animal>(),
-      fetching: false,
-      error: error,
       detailError: null
     );
 

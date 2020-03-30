@@ -6,13 +6,13 @@ import 'package:redux/redux.dart';
 // animal list
 
 AnimalState _onFetch(AnimalState state, FetchAnimalListStart action) =>
-  AnimalState.fetching();
+  state.copyWith(animal: state.animal, fetching: true, error: null, detailError: null);
 
 AnimalState _onDone(AnimalState state, FetchAnimalListDone action) =>
-  state.copyWith(animal: action.data, fetching: false, error: null);
+  state.copyWith(animal: action.data, fetching: false, error: null, detailError: null);
 
 AnimalState _onError(AnimalState state, FetchAnimalListError action) =>
-  AnimalState.error(action.error);
+  state.copyWith(animal: state.animal, fetching: false, error: action.error, detailError: state.detailError);
 
 // animal detail
 

@@ -14,20 +14,6 @@ class FishState {
       error: null
     );
 
-  factory FishState.fetching() =>
-    FishState(
-      fish: List<Catchable>(),
-      fetching: true,
-      error: null
-    );
-
-  factory FishState.error(Object error) =>
-    FishState(
-      fish: List<Catchable>(),
-      fetching: false,
-      error: error
-    );
-
   FishState copyWith({List<Catchable> fish, bool fetching, Object error}) {
     return FishState(fish: fish, fetching: fetching, error: error);
   }
