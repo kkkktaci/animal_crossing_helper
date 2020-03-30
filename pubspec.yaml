@@ -57,3 +57,6 @@ flutter:
 
   assets:
    - assets/loading.flr
+   - assets/butterfly.png
+   - assets/fish.png
+   - assets/pawprint.png

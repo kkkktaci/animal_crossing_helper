@@ -2,7 +2,9 @@ import 'package:animal_crossing_helper/widgets/animal/animal_list.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+const Color SELECTED_COLOR = Color.fromARGB(255, 250, 217, 145);
+const Color UNSELECTED_COLOR = Color.fromARGB(255, 128, 125, 115);
 
 class Home extends StatefulWidget {
   @override
@@ -34,15 +36,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List<BottomNavigationBarItem> _buildBottomBarItems() {
     return [
       BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.fish),
+        icon: ImageIcon(AssetImage('assets/fish.png')),
         title: Text('Fish')
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.fish),
+        icon: ImageIcon(AssetImage('assets/butterfly.png')),
         title: Text('Insect')
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.fish),
+        icon: ImageIcon(AssetImage('assets/pawprint.png')),
         title: Text('npc')
       )
     ];
@@ -78,8 +80,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         backgroundColor: Color.fromARGB(255, 248, 251, 226),
         currentIndex: _currentBottomIndex,
         type: _type,
-        selectedItemColor: Color.fromARGB(255, 250, 217, 145),
-        unselectedItemColor: Color.fromARGB(255, 128, 125, 115),
+        selectedItemColor: SELECTED_COLOR,
+        unselectedItemColor: UNSELECTED_COLOR,
         items: _buildBottomBarItems(),
         onTap: _onBottomBarTap,
       ),
