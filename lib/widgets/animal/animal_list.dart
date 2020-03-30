@@ -87,6 +87,11 @@ class AnimalList extends StatelessWidget {
     );
   }
 
+  Widget _buildMark(NameThing animal) {
+    if (!(animal as Animal).isMarked) return null;
+    return Icon(Icons.favorite, color: Colors.red[200],);
+  }
+
   @override
   Widget build(BuildContext context) {
     print('>>>> build animal list');
@@ -96,6 +101,7 @@ class AnimalList extends StatelessWidget {
         converter: _fromStore,
         onItemTap: _gotoDetail,
         onFetchDoneCallback: _showBirthdayNotification,
+        buildMark: _buildMark,
       )
     );
   }

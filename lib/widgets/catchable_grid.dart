@@ -1,7 +1,6 @@
 import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
-import 'package:flare_flutter/asset_provider.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,8 +11,9 @@ class CatchableGrid extends StatefulWidget {
   Function fetchData;
   Function(Store<AppState>) converter;
   Function(List<NameThing> data) onFetchDoneCallback;
+  Function(NameThing) buildMark;
 
-  CatchableGrid({this.onItemTap, this.fetchData, this.converter, this.onFetchDoneCallback});
+  CatchableGrid({this.onItemTap, this.fetchData, this.converter, this.onFetchDoneCallback, this.buildMark});
 
   @override
   _CatchableGridState createState() => _CatchableGridState();
@@ -68,7 +68,10 @@ class _CatchableGridState extends State<CatchableGrid>
                       crossAxisCount: 3, childAspectRatio: 1.0),
                   itemBuilder: (context, index) {
                     return GridCard(
-                        onTap: widget.onItemTap, nameThing: vm.data[index]);
+                      onTap: widget.onItemTap,
+                      nameThing: vm.data[index],
+                      buildMark: widget.buildMark,
+                    );
                   },
                   itemCount: vm.data.length,
                 ));
