@@ -27,6 +27,7 @@ class Catchable extends NameThing {
   // 出现时间
   List<String> time;
   // 出现地点
+  @JsonKey(name: 'place')
   String activePlace;
   // 鱼影 或 昆虫出现天气
   String extra;

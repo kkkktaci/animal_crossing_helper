@@ -14,7 +14,7 @@ Catchable _$CatchableFromJson(Map<String, dynamic> json) {
     north: (json['north'] as List)?.map((e) => e as String)?.toList(),
     south: (json['south'] as List)?.map((e) => e as String)?.toList(),
     time: (json['time'] as List)?.map((e) => e as String)?.toList(),
-    activePlace: json['activePlace'] as String,
+    activePlace: json['place'] as String,
     extra: json['extra'] as String,
     type: _$enumDecodeNullable(_$TYPEEnumMap, json['type']),
   );
@@ -27,7 +27,7 @@ Map<String, dynamic> _$CatchableToJson(Catchable instance) => <String, dynamic>{
       'north': instance.north,
       'south': instance.south,
       'time': instance.time,
-      'activePlace': instance.activePlace,
+      'place': instance.activePlace,
       'extra': instance.extra,
       'type': _$TYPEEnumMap[instance.type],
     };
