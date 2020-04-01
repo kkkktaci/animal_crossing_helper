@@ -8,8 +8,22 @@ import 'package:redux/redux.dart';
 AnimalState _onFetch(AnimalState state, FetchAnimalListStart action) =>
   state.copyWith(animal: state.animal, fetching: true, error: null, detailError: null);
 
-AnimalState _onDone(AnimalState state, FetchAnimalListDone action) =>
-  state.copyWith(animal: action.data, fetching: false, error: null, detailError: null);
+AnimalState _onDone(AnimalState state, FetchAnimalListDone action) {
+  List<Animal> animal;
+  if (state.animal != null && state.animal.length > 0) {
+    animal = action.data.map((item) {
+      var animalInState = state.animal.singleWhere((i) => i.name == item.name);
+      item.isMarked = animalInState.isMarked;
+      item.goal = animalInState.goal;
+      item.motto = animalInState.motto;
+      item.foreignWord = animalInState.foreignWord;
+      return item;
+    }).toList();
+  } else {
+    animal = action.data;
+  }
+  return state.copyWith(animal: animal, fetching: false, error: null, detailError: null);
+}
 
 AnimalState _onError(AnimalState state, FetchAnimalListError action) =>
   state.copyWith(animal: state.animal, fetching: false, error: action.error, detailError: state.detailError);
