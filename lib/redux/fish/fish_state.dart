@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animal_crossing_helper/models/catchable.dart';
 
 class FishState {
@@ -35,4 +37,10 @@ class FishState {
   String toString() {
     return 'FishState{fish: $fish, fetching: $fetching, error: $error}';
   }
+
+  factory FishState.fromJson(Map<String, dynamic> json) {
+    var fish = List<Catchable>.from(json['fish'].map((i) => Catchable.fromJson(i)));
+    return FishState(fish: fish, fetching: false, error: null);
+  }
+  dynamic toJson() => jsonEncode({'fish': fish});
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animal_crossing_helper/redux/animal/animal_state.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_state.dart';
 import 'package:animal_crossing_helper/redux/insect/insect_state.dart';
@@ -28,6 +30,23 @@ class AppState {
     fish == other.fish &&
     insects == other.insects &&
     animal == other.animal;
+
+  // for redux persist
+  static AppState fromJson(dynamic json) {
+    if (json == null) {
+      return AppState.initial();
+    }
+    var fishS = jsonDecode(json['fish']);
+    print(fishS);
+    return AppState(
+      fish: FishState.fromJson(jsonDecode(json['fish'])),
+      insects: InsectState.fromJson(jsonDecode(json['insects'])),
+      animal: AnimalState.fromJson(jsonDecode(json['animal']))
+    );
+  }
+
+  // for redux persist
+  dynamic toJson() => {'fish': fish.toJson(), 'insects': insects.toJson(), 'animal': animal.toJson()};
 
   @override
   String toString() {
