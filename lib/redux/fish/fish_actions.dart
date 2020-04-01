@@ -20,6 +20,7 @@ class FetchFishError {
 
 ThunkAction<AppState> fetchFish(Function(List<NameThing>) onDoneCallback) {
   return (Store<AppState> store) async {
+    if(store.state.fish.fetching) return;
     store.dispatch(FetchFishStart());
 
     try {

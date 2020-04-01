@@ -21,6 +21,7 @@ class FetchAnimalListError {
 
 ThunkAction<AppState> fetchAnimalList(Function(List<NameThing>) onDoneCallback) {
   return (Store<AppState> store) async {
+    if (store.state.animal.fetching) return;
     store.dispatch(FetchAnimalListStart());
 
     try {
@@ -37,7 +38,10 @@ ThunkAction<AppState> fetchAnimalList(Function(List<NameThing>) onDoneCallback) 
 
 // fetch animal detail
 
-class FetchAnimalDetailStart {}
+class FetchAnimalDetailStart {
+  String name;
+  FetchAnimalDetailStart({this.name});
+}
 
 class FetchAnimalDetailDone {
   String name;
@@ -46,8 +50,9 @@ class FetchAnimalDetailDone {
 }
 
 class FetchAnimalDetailError {
+  String name;
   Object error;
-  FetchAnimalDetailError({this.error});
+  FetchAnimalDetailError({this.error, this.name});
 }
 
 ThunkAction<AppState> fetchAnimalDetailIfNeeded(String name) {
@@ -59,12 +64,12 @@ ThunkAction<AppState> fetchAnimalDetailIfNeeded(String name) {
 
 ThunkAction<AppState> fetchAnimalDetail(String name) {
   return (Store<AppState> store) async {
-    store.dispatch(FetchAnimalDetailStart());
+    store.dispatch(FetchAnimalDetailStart(name: name));
 
     try {
       store.dispatch(FetchAnimalDetailDone(name: name, animal: await Api().getAnimalDetail(name)));
     } catch (e) {
-      store.dispatch(FetchAnimalDetailError(error: e.toString()));
+      store.dispatch(FetchAnimalDetailError(name: name, error: e.toString()));
     }
   };
 }

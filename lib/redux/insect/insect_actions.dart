@@ -20,6 +20,7 @@ class FetchInsectsError {
 
 ThunkAction<AppState> fetchInsects(Function(List<NameThing>) onDoneCallback) {
   return (Store<AppState> store) async {
+    if (store.state.insects.fetching) return;
     store.dispatch(FetchInsectsStart());
 
     try {
