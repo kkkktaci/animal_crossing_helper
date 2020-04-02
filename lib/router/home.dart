@@ -37,15 +37,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return [
       BottomNavigationBarItem(
         icon: ImageIcon(AssetImage('assets/fish.png')),
-        title: Text('Fish')
+        title: Text('鱼类')
       ),
       BottomNavigationBarItem(
         icon: ImageIcon(AssetImage('assets/butterfly.png')),
-        title: Text('Insect')
+        title: Text('昆虫')
       ),
       BottomNavigationBarItem(
         icon: ImageIcon(AssetImage('assets/pawprint.png')),
-        title: Text('npc')
+        title: Text('村名')
       )
     ];
   }
