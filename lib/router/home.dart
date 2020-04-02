@@ -45,7 +45,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       ),
       BottomNavigationBarItem(
         icon: ImageIcon(AssetImage('assets/pawprint.png')),
-        title: Text('村名')
+        title: Text('村民')
       )
     ];
   }
