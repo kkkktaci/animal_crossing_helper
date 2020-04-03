@@ -39,8 +39,8 @@ class CatchableDetail extends StatelessWidget {
         children: <Widget>[
           _buildInfoRow(context, '价格', catchable.price),
           _buildInfoRow(context, '捕获位置', catchable.activePlace),
-          _buildInfoRow(context, '北半球月份', '${catchable.north.first} - ${catchable.north.last}'),
-          _buildInfoRow(context, '南半球月份', '${catchable.south.first} - ${catchable.south.last}'),
+          _buildInfoRow(context, '北半球月份', '${catchable.north.join(', ')}'),
+          _buildInfoRow(context, '南半球月份', '${catchable.south.join(', ')}'),
           _buildInfoRow(context, '出现时间', '${catchable.time.first} - ${catchable.time.last}'),
           _buildInfoRow(context, this.catchable.type == TYPE.FISH ? '鱼影大小' : '出现天气', catchable.extra),
         ],
