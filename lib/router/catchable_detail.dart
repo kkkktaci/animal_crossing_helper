@@ -16,7 +16,7 @@ class CatchableDetail extends StatelessWidget {
         children: <Widget>[
           Container(
             color: Colors.green[100],
-            width: 100,
+            width: 120,
             height: 30,
             padding: EdgeInsets.only(left: 16),
             alignment: AlignmentDirectional.centerStart,
