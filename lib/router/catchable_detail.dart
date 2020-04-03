@@ -22,11 +22,14 @@ class CatchableDetail extends StatelessWidget {
             alignment: AlignmentDirectional.centerStart,
             child: Text(title, style: Theme.of(context).textTheme.display1,),
           ),
-          Container(
+          Expanded(
+            child: Container(
               height: 30,
               padding: EdgeInsets.only(left: 6),
               alignment: AlignmentDirectional.centerStart,
-              child: Text(content, style: Theme.of(context).textTheme.display1,)),
+              child: Text(content, style: Theme.of(context).textTheme.display1,)
+            ),
+          )
         ],
       ),
     );
