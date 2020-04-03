@@ -21,6 +21,8 @@ class App extends StatelessWidget {
       display1: TextStyle(fontSize: 18, color: Colors.black),
       display2: TextStyle(fontSize: 16, color: Colors.black),
       display3: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+      body1: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+      body2: TextStyle(fontSize: 14, color: Colors.black, fontStyle: FontStyle.italic),
     ),
   );
 

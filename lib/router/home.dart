@@ -1,7 +1,9 @@
 import 'package:animal_crossing_helper/widgets/animal/animal_list.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
+import 'package:animal_crossing_helper/widgets/quick_glance.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 const Color SELECTED_COLOR = Color.fromARGB(255, 250, 217, 145);
 const Color UNSELECTED_COLOR = Color.fromARGB(255, 128, 125, 115);
@@ -21,17 +23,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     InsectList(),
     AnimalList(),
   ];
-
-
-
-  List<Widget> _buildAppBarActions() {
-    return [
-      IconButton(
-        icon: const Icon(Icons.settings),
-        onPressed: () => {}
-      )
-    ];
-  }
 
   List<BottomNavigationBarItem> _buildBottomBarItems() {
     return [
@@ -68,7 +59,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       appBar: AppBar(
         // TODO: 需要一个leading图标
         title: Text('Animal Crossing Helper', style: TextStyle(color: Colors.white)),
-        // actions: _buildAppBarActions(),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.import_contacts),
+            onPressed: () {
+              showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+                return QuickGlance();
+              });
+            }
+          )
+        ],
       ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
