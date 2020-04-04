@@ -8,11 +8,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 List<Catchable> filterCatchableByMonth(BuildContext context, TYPE type, int month) {
   AppState state = StoreProvider.of<AppState>(context).state;
   final monthString = '$month';
+  bool _north = state.location.north;
   List<Catchable> data;
   if (type == TYPE.FISH) data = state.fish.fish;
   else data = state.insects.insects;
   return data.where((f) {
-    return f.north.contains(monthString);
+    if (_north) {
+      return f.north.contains(monthString);
+    }
+    return f.south.contains(monthString);
   }).toList();
 }
 
