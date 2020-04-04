@@ -24,67 +24,114 @@ class _CatchableGridState extends State<CatchableGrid>
 
   List<NameThing> _data;
 
-  void _onSearchTap(BuildContext context, List<NameThing> data) async {
+  void _onSearchTap() async {
     if (_data.length <= 0) return;
     await showSearch(
       context: context,
-      delegate: _SearchCatchableDelegate(_data, (context.widget as CatchableGrid).onItemTap)
+      delegate: _SearchCatchableDelegate(_data, widget.onItemTap)
     );
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container (
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            width: MediaQuery.of(context).size.width,
-            child: OutlineButton(
-              highlightedBorderColor: Theme.of(context).primaryColor,
-              onPressed: () => this._onSearchTap(context, this._data),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Text('搜索', style: Theme.of(context).textTheme.display2,),
-            ),
-          ),
-          Expanded(
-            child: StoreConnector<AppState, NameThingViewModal>(
-              distinct: true,
-              converter: widget.converter,
-              onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
-              builder: (context, vm) {
-                if (vm.fetching && vm.data.length < 1) {
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    child: FlareActor('assets/loading.flr', animation: 'Alarm',)
-                  );
-                }
+    return StoreConnector<AppState, NameThingViewModal>(
+      distinct: true,
+      converter: widget.converter,
+      onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
+      builder: (context, vm) {
+        if (vm.fetching && vm.data.length == 0) {
+          return Container(
+            width: 50,
+            height: 50,
+            child: FlareActor('assets/loading.flr', animation: 'Alarm',),
+          );
+        }
 
-                _data = vm.data;
-                return (GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, childAspectRatio: 1.0),
-                  itemBuilder: (context, index) {
-                    return GridCard(
-                      onTap: widget.onItemTap,
-                      nameThing: vm.data[index],
-                      buildMark: widget.buildMark,
-                    );
-                  },
-                  itemCount: vm.data.length,
-                ));
-              },
+        this._data = vm.data;
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              floating: true,
+              delegate: SliverSearchBarDelegate(onTap: this._onSearchTap)
             ),
-          ),
-        ],
-      ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: SliverFiltersDeletegate()
+            ),
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return GridCard(
+                  onTap: widget.onItemTap,
+                  nameThing: vm.data[index],
+                  buildMark: widget.buildMark,
+                );
+              },
+              childCount: vm.data.length)
+            )
+          ],
+        );
+      },
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class SliverSearchBarDelegate extends SliverPersistentHeaderDelegate {
+  Function onTap;
+  SliverSearchBarDelegate({this.onTap});
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container (
+      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      width: MediaQuery.of(context).size.width,
+      color: Colors.white,
+      height: 50,
+      child: OutlineButton(
+        highlightedBorderColor: Theme.of(context).primaryColor,
+        onPressed: () => this.onTap(),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Text('搜索', style: Theme.of(context).textTheme.display2,),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 50;
+
+  @override
+  double get minExtent => 50;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+}
+
+class SliverFiltersDeletegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 45,
+      color: Colors.red,
+    );
+  }
+
+  @override
+  double get maxExtent => 45;
+
+  @override
+  double get minExtent => 45;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+  
 }
 
 class _SearchCatchableDelegate extends SearchDelegate<NameThing> {
