@@ -34,7 +34,7 @@ class App extends StatelessWidget {
       store: store,
       child: BotToastInit(
         child: MaterialApp(
-          title: 'Animal Crossing Helper',
+          title: '动森小助手',
           theme: _themeData,
           navigatorObservers: [BotToastNavigatorObserver()],
           home: Home(),

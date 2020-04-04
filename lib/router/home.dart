@@ -85,7 +85,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Animal Crossing Helper', style: TextStyle(color: Colors.white)),
+        title: Text('动森小助手', style: TextStyle(color: Colors.white)),
       ),
       drawer: Drawer(
         child: ListView(
