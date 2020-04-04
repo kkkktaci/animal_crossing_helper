@@ -1,3 +1,4 @@
+import 'package:animal_crossing_helper/router/glance.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -21,8 +22,8 @@ class App extends StatelessWidget {
       display1: TextStyle(fontSize: 18, color: Colors.black),
       display2: TextStyle(fontSize: 16, color: Colors.black),
       display3: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-      body1: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-      body2: TextStyle(fontSize: 14, color: Colors.black, fontStyle: FontStyle.italic),
+      body1: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+      body2: TextStyle(fontSize: 16, color: Colors.grey[600], fontWeight: FontWeight.w300),
     ),
   );
 
@@ -39,6 +40,7 @@ class App extends StatelessWidget {
           routes: {
             '/catchable_detail': (context) => CatchableDetail(),
             '/animal_detail': (context) => AnimalDetail(),
+            '/glance': (context) => Glance(),
           },
         ),
       ),

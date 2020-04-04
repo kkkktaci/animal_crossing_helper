@@ -1,7 +1,8 @@
+import 'package:animal_crossing_helper/redux/app/app_state.dart';
+import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/animal/animal_list.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
-import 'package:animal_crossing_helper/widgets/quick_glance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -51,24 +52,56 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     _pageController?.jumpToPage(index);
   }
 
+  Widget _buildDrawerHeader(BuildContext context) {
+    int count = getAllMyFollowAnimal(StoreProvider.of<AppState>(context).state).length;
+    return Container(
+      child: Stack(
+        children: <Widget>[
+           Positioned(
+            bottom: 8,
+            child: InkWell(
+              onTap: () {},
+              child: Text.rich(
+                TextSpan(
+                  children: <InlineSpan>[
+                    TextSpan(text: '$count', style: Theme.of(context).textTheme.body1),
+                    TextSpan(text: ' 位正在关注的村民', style: Theme.of(context).textTheme.body2)
+                  ]
+                )
+              ),
+            )
+          ),
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // 想要保持state的话，加AutomaticKeepAliveClientMixin的同时也需要加super.build
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        // TODO: 需要一个leading图标
         title: Text('Animal Crossing Helper', style: TextStyle(color: Colors.white)),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.import_contacts),
-            onPressed: () {
-              showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
-                return QuickGlance();
-              });
-            }
-          )
-        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          children: <Widget>[
+            DrawerHeader(
+              child: _buildDrawerHeader(context)
+            ),
+            ListTile(
+              leading: Icon(Icons.list),
+              title: Text('当月一览'),
+              onTap: () {
+                // 关闭抽屉
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/glance');
+              },
+            )
+          ],
+        ),
       ),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
