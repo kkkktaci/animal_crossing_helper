@@ -16,12 +16,12 @@ class Glance extends StatelessWidget {
   Widget build(BuildContext context) {
     int month = DateTime.now().month;
     List<Catchable> fish = filterCatchableByMonth(
-      StoreProvider.of<AppState>(context).state,
+      context,
       TYPE.FISH,
       month
     );
     List<Catchable> insect = filterCatchableByMonth(
-      StoreProvider.of<AppState>(context).state,
+      context,
       TYPE.INSECT,
       month
     );

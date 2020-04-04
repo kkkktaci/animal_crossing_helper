@@ -1,10 +1,12 @@
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
+import 'package:animal_crossing_helper/redux/location/location_actions.dart';
 import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/animal/animal_list.dart';
 import 'package:animal_crossing_helper/widgets/fish/fish_list.dart';
 import 'package:animal_crossing_helper/widgets/insect/insect_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 const Color SELECTED_COLOR = Color.fromARGB(255, 250, 217, 145);
 const Color UNSELECTED_COLOR = Color.fromARGB(255, 128, 125, 115);
@@ -53,7 +55,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Widget _buildDrawerHeader(BuildContext context) {
-    int count = getAllMyFollowAnimal(StoreProvider.of<AppState>(context).state).length;
+    int count = getAllMyFollowAnimal(context).length;
     return Container(
       child: Stack(
         children: <Widget>[
@@ -87,25 +89,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       appBar: AppBar(
         title: Text('动森小助手', style: TextStyle(color: Colors.white)),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          children: <Widget>[
-            DrawerHeader(
-              child: _buildDrawerHeader(context)
-            ),
-            ListTile(
-              leading: Icon(Icons.list),
-              title: Text('当月一览'),
-              onTap: () {
-                // 关闭抽屉
-                Navigator.pop(context);
-                Navigator.of(context).pushNamed('/glance');
-              },
-            )
-          ],
-        ),
-      ),
+      drawer: _buildDrawer(context),
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
@@ -124,6 +108,73 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  Drawer _buildDrawer(BuildContext context) {
+    bool _isNorth = isNorth(context);
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                children: <Widget>[
+                  DrawerHeader(
+                    child: _buildDrawerHeader(context)
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.list),
+                    title: Text('当月一览'),
+                    onTap: () {
+                      // 关闭抽屉
+                      Navigator.pop(context);
+                      Navigator.of(context).pushNamed('/glance');
+                    },
+                  )
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  StoreConnector<AppState, LocationViewModel>(
+                    distinct: true,
+                    converter: LocationViewModel.fromStore,
+                    builder: (context, vm) {
+                      return FlatButton(
+                        onPressed: () {
+                          StoreProvider.of<AppState>(context).dispatch(ToggleLocation());
+                        },
+                        child: Text('${vm.north ? '北' : '南'}半球')
+                      );
+                    },
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   bool get wantKeepAlive => true;
+}
+
+class LocationViewModel {
+  bool north;
+  LocationViewModel({this.north});
+
+  static LocationViewModel fromStore(Store<AppState> store) => LocationViewModel(north: store.state.location.north);
+
+  operator ==(Object other) =>
+  identical(this, other) ||
+  other is LocationViewModel && north == other.north;
+
+  @override
+  int get hashCode => north.hashCode;
 }

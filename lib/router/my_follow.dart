@@ -16,7 +16,7 @@ class MyFollow extends StatefulWidget {
 class _MyFollowState extends State<MyFollow> {
   @override
   Widget build(BuildContext context) {
-    List<Animal> animal = getAllMyFollowAnimal(StoreProvider.of<AppState>(context).state);
+    List<Animal> animal = getAllMyFollowAnimal(context);
     return Scaffold(
       appBar: AppBar(title: Text('正在关注的村民', style: TextStyle(color: Colors.white)),),
       body: _buildBody(animal)
