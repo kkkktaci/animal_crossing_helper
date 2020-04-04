@@ -60,7 +60,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
            Positioned(
             bottom: 8,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed('/my_follow');
+              },
               child: Text.rich(
                 TextSpan(
                   children: <InlineSpan>[

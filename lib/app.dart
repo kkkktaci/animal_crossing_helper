@@ -1,4 +1,5 @@
 import 'package:animal_crossing_helper/router/glance.dart';
+import 'package:animal_crossing_helper/router/my_follow.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -41,6 +42,7 @@ class App extends StatelessWidget {
             '/catchable_detail': (context) => CatchableDetail(),
             '/animal_detail': (context) => AnimalDetail(),
             '/glance': (context) => Glance(),
+            '/my_follow': (context) => MyFollow(),
           },
         ),
       ),
