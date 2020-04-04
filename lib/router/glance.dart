@@ -29,7 +29,7 @@ class Glance extends StatelessWidget {
       appBar: AppBar(title: Text('当月一览', style: TextStyle(color: Colors.white)),),
       body: DefaultTabController(
         length: 2,
-        initialIndex: 1,
+        initialIndex: 0,
         child: Column(
           children: <Widget>[
             Container(
