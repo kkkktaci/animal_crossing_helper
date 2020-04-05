@@ -2,6 +2,7 @@ import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/type.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
+import 'package:animal_crossing_helper/redux/price_sort.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -18,6 +19,22 @@ List<Catchable> filterCatchableByMonth(BuildContext context, TYPE type, int mont
     }
     return f.south.contains(monthString);
   }).toList();
+}
+
+List<Catchable> getCatchableAfterFilter(BuildContext context, List<Catchable> data) {
+  AppState state = StoreProvider.of<AppState>(context).state;
+  if (state.filters.priceSort == PRICE.NONE) {
+    return data;
+  }
+  List<Catchable> _data = List<Catchable>.from(data);
+  _data.sort((a, b) {
+    if (state.filters.priceSort == PRICE.UPWARD) {
+      return int.parse(a.price).compareTo(int.parse(b.price));
+    } else if (state.filters.priceSort == PRICE.FAIL) {
+      return int.parse(b.price).compareTo(int.parse(a.price));
+    }
+  });
+  return _data;
 }
 
 List<Animal> getAllMyFollowAnimal(BuildContext context) {

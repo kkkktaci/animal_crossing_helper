@@ -7,9 +7,9 @@ import 'package:animal_crossing_helper/widgets/catchable_grid.dart';
 
 class InsectList extends StatelessWidget {
 
-  NameThingViewModal _fromStore(Store<AppState> store) {
+  CatchableViewModel _fromStore(Store<AppState> store) {
     var insectState = store.state.insects;
-    return NameThingViewModal(
+    return CatchableViewModel(
       fetching: insectState.fetching,
       data: insectState.insects,
       error: insectState.error

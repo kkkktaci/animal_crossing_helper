@@ -40,7 +40,7 @@ class CatchableDetail extends StatelessWidget {
       padding: EdgeInsets.only(top: 10),
       child: Column(
         children: <Widget>[
-          _buildInfoRow(context, '价格', catchable.price),
+          _buildInfoRow(context, '价格', '${catchable.price}'),
           _buildInfoRow(context, '捕获位置', catchable.activePlace),
           _buildInfoRow(context, '北半球月份', '${catchable.north.join(', ')}'),
           _buildInfoRow(context, '南半球月份', '${catchable.south.join(', ')}'),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animal_crossing_helper/redux/animal/animal_state.dart';
+import 'package:animal_crossing_helper/redux/filters/filter_state.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_state.dart';
 import 'package:animal_crossing_helper/redux/insect/insect_state.dart';
 import 'package:animal_crossing_helper/redux/location/location_state.dart';
@@ -10,20 +11,22 @@ class AppState {
   InsectState insects;
   AnimalState animal;
   LocationState location;
+  FilterState filters;
 
-  AppState({this.fish, this.insects, this.animal, this.location});
+  AppState({this.fish, this.insects, this.animal, this.location, this.filters});
 
   factory AppState.initial() =>
     AppState(
       fish: FishState.initial(),
       insects: InsectState.initial(),
       animal: AnimalState.initial(),
-      location: LocationState.initial()
+      location: LocationState.initial(),
+      filters: FilterState.initial()
     );
 
   @override
   int get hashCode =>
-    fish.hashCode ^ insects.hashCode ^ animal.hashCode ^ location.hashCode;
+    fish.hashCode ^ insects.hashCode ^ animal.hashCode ^ location.hashCode ^ filters.hashCode;
 
   @override
   operator ==(Object other) =>
@@ -33,7 +36,8 @@ class AppState {
     fish == other.fish &&
     insects == other.insects &&
     animal == other.animal &&
-    location == other.location;
+    location == other.location &&
+    filters == other.filters;
 
   // for redux persist
   static AppState fromJson(dynamic json) {
@@ -53,7 +57,8 @@ class AppState {
       fish: FishState.fromJson(jsonDecode(json['fish'])),
       insects: InsectState.fromJson(jsonDecode(json['insects'])),
       animal: AnimalState.fromJson(jsonDecode(json['animal'])),
-      location: location
+      location: location,
+      filters: FilterState.initial()
     );
   }
 
@@ -63,6 +68,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{location: $location, fish: $fish, insects: $insects, animal: $animal}';
+    return 'AppState{filter: $filters, location: $location, fish: $fish, insects: $insects, animal: $animal}';
   }
 }

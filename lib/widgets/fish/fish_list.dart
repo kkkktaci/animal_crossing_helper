@@ -7,12 +7,13 @@ import 'package:animal_crossing_helper/widgets/catchable_grid.dart';
 
 class FishList extends StatelessWidget {
 
-  NameThingViewModal _fromStore(Store<AppState> store) {
+  CatchableViewModel _fromStore(Store<AppState> store) {
     var fishState = store.state.fish;
-    return NameThingViewModal(
+    return CatchableViewModel(
       fetching: fishState.fetching,
       data: fishState.fish,
-      error: fishState.error
+      error: fishState.error,
+      filter: store.state.filters
     );
   }
 
