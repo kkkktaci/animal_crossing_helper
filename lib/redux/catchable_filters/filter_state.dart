@@ -1,17 +1,17 @@
 import 'package:animal_crossing_helper/redux/price_sort.dart';
 
-class FilterState {
+class CatchableFilterState {
   PRICE priceSort;
 
-  FilterState({this.priceSort});
+  CatchableFilterState({this.priceSort});
 
-  factory FilterState.initial() =>
-    FilterState(priceSort: PRICE.NONE);
+  factory CatchableFilterState.initial() =>
+    CatchableFilterState(priceSort: PRICE.NONE);
 
   @override
   operator ==(Object other) =>
     identical(this, other) ||
-    other is FilterState &&
+    other is CatchableFilterState &&
       runtimeType == other.runtimeType &&
       priceSort == other.priceSort;
   
@@ -21,6 +21,6 @@ class FilterState {
 
   @override
   String toString() {
-    return 'FilterState{price: $priceSort}';
+    return 'CatchableFilterState{price: $priceSort}';
   }
 }

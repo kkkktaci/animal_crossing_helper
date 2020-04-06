@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:animal_crossing_helper/redux/animal/animal_state.dart';
-import 'package:animal_crossing_helper/redux/filters/filter_state.dart';
+import 'package:animal_crossing_helper/redux/catchable_filters/filter_state.dart';
 import 'package:animal_crossing_helper/redux/fish/fish_state.dart';
 import 'package:animal_crossing_helper/redux/insect/insect_state.dart';
 import 'package:animal_crossing_helper/redux/location/location_state.dart';
@@ -11,9 +11,9 @@ class AppState {
   InsectState insects;
   AnimalState animal;
   LocationState location;
-  FilterState filters;
+  CatchableFilterState catchableFilters;
 
-  AppState({this.fish, this.insects, this.animal, this.location, this.filters});
+  AppState({this.fish, this.insects, this.animal, this.location, this.catchableFilters});
 
   factory AppState.initial() =>
     AppState(
@@ -21,12 +21,12 @@ class AppState {
       insects: InsectState.initial(),
       animal: AnimalState.initial(),
       location: LocationState.initial(),
-      filters: FilterState.initial()
+      catchableFilters: CatchableFilterState.initial()
     );
 
   @override
   int get hashCode =>
-    fish.hashCode ^ insects.hashCode ^ animal.hashCode ^ location.hashCode ^ filters.hashCode;
+    fish.hashCode ^ insects.hashCode ^ animal.hashCode ^ location.hashCode ^ catchableFilters.hashCode;
 
   @override
   operator ==(Object other) =>
@@ -37,7 +37,7 @@ class AppState {
     insects == other.insects &&
     animal == other.animal &&
     location == other.location &&
-    filters == other.filters;
+    catchableFilters == other.catchableFilters;
 
   // for redux persist
   static AppState fromJson(dynamic json) {
@@ -58,7 +58,7 @@ class AppState {
       insects: InsectState.fromJson(jsonDecode(json['insects'])),
       animal: AnimalState.fromJson(jsonDecode(json['animal'])),
       location: location,
-      filters: FilterState.initial()
+      catchableFilters: CatchableFilterState.initial()
     );
   }
 
@@ -68,6 +68,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{filter: $filters, location: $location, fish: $fish, insects: $insects, animal: $animal}';
+    return 'AppState{catchableFilter: $catchableFilters, location: $location, fish: $fish, insects: $insects, animal: $animal}';
   }
 }

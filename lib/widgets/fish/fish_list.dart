@@ -13,7 +13,7 @@ class FishList extends StatelessWidget {
       fetching: fishState.fetching,
       data: fishState.fish,
       error: fishState.error,
-      filter: store.state.filters
+      filter: store.state.catchableFilters
     );
   }
 

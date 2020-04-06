@@ -1,8 +1,8 @@
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
-import 'package:animal_crossing_helper/redux/filters/filter_actions.dart';
-import 'package:animal_crossing_helper/redux/filters/filter_state.dart';
+import 'package:animal_crossing_helper/redux/catchable_filters/filter_actions.dart';
+import 'package:animal_crossing_helper/redux/catchable_filters/filter_state.dart';
 import 'package:animal_crossing_helper/redux/price_sort.dart';
 import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
@@ -39,7 +39,7 @@ class _CatchableGridState extends State<CatchableGrid>
     );
   }
 
-  Widget _buildBottomSheet(BuildContext context, FilterState filter) {
+  Widget _buildBottomSheet(BuildContext context, CatchableFilterState filter) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.4,
       // color: Colors.red,
@@ -49,14 +49,15 @@ class _CatchableGridState extends State<CatchableGrid>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _buildSortByPrice(context, filter),
-            Divider()
+            Divider(),
+
           ],
         )
       ),
     );
   }
 
-  Widget _buildSortByPrice(BuildContext context, FilterState filter) {
+  Widget _buildSortByPrice(BuildContext context, CatchableFilterState filter) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -84,6 +85,10 @@ class _CatchableGridState extends State<CatchableGrid>
         )
       ],
     );
+  }
+
+  Widget _buildSortByPlace(BuildContext context) {
+    
   }
 
   @override
@@ -134,7 +139,7 @@ class CatchableViewModel {
   bool fetching;
   List<Catchable> data;
   Object error;
-  FilterState filter;
+  CatchableFilterState filter;
 
   CatchableViewModel({this.fetching, this.data, this.error, this.filter});
 

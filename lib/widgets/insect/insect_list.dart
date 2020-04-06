@@ -13,7 +13,7 @@ class InsectList extends StatelessWidget {
       fetching: insectState.fetching,
       data: insectState.insects,
       error: insectState.error,
-      filter: store.state.filters
+      filter: store.state.catchableFilters
     );
   }
 

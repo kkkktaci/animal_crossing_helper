@@ -23,14 +23,14 @@ List<Catchable> filterCatchableByMonth(BuildContext context, TYPE type, int mont
 
 List<Catchable> getCatchableAfterFilter(BuildContext context, List<Catchable> data) {
   AppState state = StoreProvider.of<AppState>(context).state;
-  if (state.filters.priceSort == PRICE.NONE) {
+  if (state.catchableFilters.priceSort == PRICE.NONE) {
     return data;
   }
   List<Catchable> _data = List<Catchable>.from(data);
   _data.sort((a, b) {
-    if (state.filters.priceSort == PRICE.UPWARD) {
+    if (state.catchableFilters.priceSort == PRICE.UPWARD) {
       return int.parse(a.price).compareTo(int.parse(b.price));
-    } else if (state.filters.priceSort == PRICE.FAIL) {
+    } else if (state.catchableFilters.priceSort == PRICE.FAIL) {
       return int.parse(b.price).compareTo(int.parse(a.price));
     }
   });
