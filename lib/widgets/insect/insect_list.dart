@@ -12,7 +12,8 @@ class InsectList extends StatelessWidget {
     return CatchableViewModel(
       fetching: insectState.fetching,
       data: insectState.insects,
-      error: insectState.error
+      error: insectState.error,
+      filter: store.state.filters
     );
   }
 
