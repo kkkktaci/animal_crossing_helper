@@ -62,23 +62,26 @@ class _FollowItemState extends State<FollowItem> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-            child: Image(image: CachedNetworkImageProvider(widget.animal.image)),
-          ),
-          title: Text(widget.animal.name),
-          subtitle: Text(widget.animal.birthday, style: TextStyle(fontSize: 12),),
-          trailing: OutlineButton(
-            highlightedBorderColor: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).primaryColor,
-            borderSide: BorderSide(color: Theme.of(context).primaryColor),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-            onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(ToggleAnimalMark(name: widget.animal.name));
-              setState(() {
-                isFollow = !isFollow;
-              });
-            },
-            child: Text(isFollow ? '取消' : '关注')
-          ),
+        child: Image(image: CachedNetworkImageProvider(widget.animal.image)),
+      ),
+      title: Text(widget.animal.name),
+      subtitle: Text(widget.animal.birthday, style: TextStyle(fontSize: 12),),
+      trailing: OutlineButton(
+        highlightedBorderColor: Theme.of(context).primaryColor,
+        textColor: Theme.of(context).primaryColor,
+        borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+        onPressed: () {
+          StoreProvider.of<AppState>(context).dispatch(ToggleAnimalMark(name: widget.animal.name));
+          setState(() {
+            isFollow = !isFollow;
+          });
+        },
+        child: Text(isFollow ? '取消' : '关注')
+      ),
+      onTap: () {
+        Navigator.of(context).pushNamed('/animal_detail', arguments: widget.animal);
+      },
     );
   }
 }
