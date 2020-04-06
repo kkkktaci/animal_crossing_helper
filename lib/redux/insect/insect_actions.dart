@@ -18,7 +18,7 @@ class FetchInsectsError {
   FetchInsectsError({this.error});
 }
 
-ThunkAction<AppState> fetchInsects(Function(List<NameThing>) onDoneCallback) {
+ThunkAction<AppState> fetchInsects() {
   return (Store<AppState> store) async {
     if (store.state.insects.fetching) return;
     store.dispatch(FetchInsectsStart());
@@ -26,9 +26,6 @@ ThunkAction<AppState> fetchInsects(Function(List<NameThing>) onDoneCallback) {
     try {
       var result = await Api().getInsectList();
       store.dispatch(FetchInsectsDone(data: result));
-      if (onDoneCallback != null) {
-        onDoneCallback(result);
-      }
     } catch (e) {
       store.dispatch(FetchInsectsError(error: e.toString()));
     }

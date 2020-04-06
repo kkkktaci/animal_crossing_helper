@@ -18,7 +18,7 @@ class FetchFishError {
   FetchFishError({this.error});
 }
 
-ThunkAction<AppState> fetchFish(Function(List<NameThing>) onDoneCallback) {
+ThunkAction<AppState> fetchFish() {
   return (Store<AppState> store) async {
     if(store.state.fish.fetching) return;
     store.dispatch(FetchFishStart());
@@ -26,9 +26,6 @@ ThunkAction<AppState> fetchFish(Function(List<NameThing>) onDoneCallback) {
     try {
       var result = await Api().getFishList();
       store.dispatch(FetchFishDone(data: result));
-      if (onDoneCallback != null) {
-        onDoneCallback(result);
-      }
     } catch (e) {
       store.dispatch(FetchFishError(error: e.toString()));
     }

@@ -30,7 +30,7 @@ class _AnimalListState extends State<AnimalList> with AutomaticKeepAliveClientMi
     Navigator.of(context).pushNamed('/animal_detail', arguments: catchable);
   }
 
-  void _onSearchTap(BuildContext context) async {
+  void _onSearchTap() async {
     if (_data.length <= 0) return;
     await showSearch(
       context: context,
@@ -129,7 +129,8 @@ class _AnimalListState extends State<AnimalList> with AutomaticKeepAliveClientMi
           slivers: <Widget>[
             SliverPersistentHeader(
               floating: true,
-              delegate: SliverSearchBarDelegate(onTap: this._onSearchTap, bottomSheet: _buildBottomSheet(context))
+              // delegate: SliverSearchBarDelegate(onTap: this._onSearchTap, bottomSheet: _buildBottomSheet(context))
+              delegate: SliverSearchBarDelegate(onTap: this._onSearchTap)
             ),
             SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),

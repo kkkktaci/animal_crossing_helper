@@ -5,6 +5,36 @@ class SliverSearchBarDelegate extends SliverPersistentHeaderDelegate {
   Widget bottomSheet;
   SliverSearchBarDelegate({this.onTap, this.bottomSheet});
 
+  Widget _buildButton(BuildContext context) {
+    if (bottomSheet == null) return null;
+    return FlatButton(
+      onPressed: () {
+        showModalBottomSheet<void>(
+          context: context,
+          builder: (context) {
+            return bottomSheet;
+          }
+        );
+      },
+      child: Text('筛选', style: TextStyle(color: Theme.of(context).primaryColor),)
+    );
+  }
+
+  List<Widget> _buildContent(BuildContext context) {
+    List<Widget> content = [
+      Expanded(
+        child: OutlineButton(
+          highlightedBorderColor: Theme.of(context).primaryColor,
+          onPressed: () => this.onTap(),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Text('搜索', style: Theme.of(context).textTheme.display2,),
+        ),
+      ),
+      _buildButton(context)
+    ];
+    return content.where((item) => item != null).toList();
+  }
+
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container (
@@ -13,27 +43,7 @@ class SliverSearchBarDelegate extends SliverPersistentHeaderDelegate {
       color: Colors.white,
       height: 50,
       child: Row(
-        children: <Widget>[
-          Expanded(
-            child: OutlineButton(
-              highlightedBorderColor: Theme.of(context).primaryColor,
-              onPressed: () => this.onTap(context),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Text('搜索', style: Theme.of(context).textTheme.display2,),
-            ),
-          ),
-          FlatButton(
-            onPressed: () {
-              showModalBottomSheet<void>(
-                context: context,
-                builder: (context) {
-                  return bottomSheet;
-                }
-              );
-            },
-            child: Text('筛选', style: TextStyle(color: Theme.of(context).primaryColor),)
-          )
-        ],
+        children: _buildContent(context)
       )
     );
   }
@@ -46,6 +56,6 @@ class SliverSearchBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
+    return false;
   }
 }

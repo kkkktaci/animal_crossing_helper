@@ -1,10 +1,10 @@
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/name_thing.dart';
+import 'package:animal_crossing_helper/models/type.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
-import 'package:animal_crossing_helper/redux/catchable_filters/filter_actions.dart';
-import 'package:animal_crossing_helper/redux/catchable_filters/filter_state.dart';
 import 'package:animal_crossing_helper/redux/price_sort.dart';
 import 'package:animal_crossing_helper/redux/selector.dart';
+import 'package:animal_crossing_helper/widgets/fish_filter_bottom_sheet.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
 import 'package:animal_crossing_helper/widgets/search_name_thing_delegate.dart';
 import 'package:animal_crossing_helper/widgets/sliver_search_bar_delegate.dart';
@@ -16,11 +16,9 @@ import 'package:redux/redux.dart';
 class CatchableGrid extends StatefulWidget {
   Function(BuildContext, NameThing) onItemTap;
   Function fetchData;
-  Function(Store<AppState>) converter;
-  Function(List<NameThing> data) onFetchDoneCallback;
-  Function(NameThing) buildMark;
+  TYPE type;
 
-  CatchableGrid({this.onItemTap, this.fetchData, this.converter, this.onFetchDoneCallback, this.buildMark});
+  CatchableGrid({this.onItemTap, this.fetchData, this.type});
 
   @override
   _CatchableGridState createState() => _CatchableGridState();
@@ -29,75 +27,33 @@ class CatchableGrid extends StatefulWidget {
 class _CatchableGridState extends State<CatchableGrid>
     with AutomaticKeepAliveClientMixin {
 
-  List<Catchable> _data;
+  List<Catchable> _originData;
+  List<Catchable> _sortedData;
+  List<String> _allPlace;
 
-  void _onSearchTap(BuildContext context) async {
-    if (_data.length <= 0) return;
+  void _onSearchTap() async {
+    if (_originData.length <= 0) return;
     await showSearch(
       context: context,
-      delegate: SearchNameThingDelegate(_data, widget.onItemTap)
+      delegate: SearchNameThingDelegate(_originData, widget.onItemTap)
     );
   }
 
-  Widget _buildBottomSheet(BuildContext context, CatchableFilterState filter) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
-      // color: Colors.red,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildSortByPrice(context, filter),
-            Divider(),
-
-          ],
-        )
-      ),
-    );
-  }
-
-  Widget _buildSortByPrice(BuildContext context, CatchableFilterState filter) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('价格排序'),
-        Wrap(
-          spacing: 10,
-          children: <Widget>[
-            ChoiceChip(
-              label: Text('价格升序'),
-              selected: filter.priceSort == PRICE.UPWARD,
-              onSelected: (selected) {
-                Navigator.pop(context);
-                StoreProvider.of<AppState>(context).dispatch(ChangePriceSort(price: selected ? PRICE.UPWARD : PRICE.NONE));
-              },
-            ),
-            ChoiceChip(
-              label: Text('价格降序'),
-              selected: filter.priceSort == PRICE.FAIL,
-              onSelected: (selected) {
-                Navigator.pop(context);
-                StoreProvider.of<AppState>(context).dispatch(ChangePriceSort(price: selected ? PRICE.FAIL : PRICE.NONE));
-              },
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget _buildSortByPlace(BuildContext context) {
-    
+  List<String> _getAllPlace(List<Catchable> data) {
+    if (data == null) return [];
+    if (this._allPlace != null && this._allPlace.length > 0) return this._allPlace;
+    var placeSet = Set<String>();
+    placeSet.addAll(data.map((item) => item.activePlace));
+    return placeSet.toList();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, CatchableViewModel>(
-      distinct: true,
-      converter: widget.converter,
-      onInit: (store) => store.dispatch(widget.fetchData(widget.onFetchDoneCallback)),
+      // distinct: true,
+      converter: (store) => CatchableViewModel.fromStore(store, widget.type),
+      onInit: (store) => store.dispatch(widget.fetchData()),
       builder: (context, vm) {
         if (vm.fetching && vm.data.length == 0) {
           return Container(
@@ -107,23 +63,27 @@ class _CatchableGridState extends State<CatchableGrid>
           );
         }
 
-        this._data = getCatchableAfterFilter(context, vm.data);
+        if (_originData == null) _originData = vm.data;
+        this._sortedData = getCatchableAfterFilter(context, vm.data, widget.type);
+        this._allPlace = _getAllPlace(vm.data);
         return CustomScrollView(
           slivers: <Widget>[
             SliverPersistentHeader(
               floating: true,
-              delegate: SliverSearchBarDelegate(onTap: this._onSearchTap, bottomSheet: _buildBottomSheet(context, vm.filter))
+              delegate: SliverSearchBarDelegate(
+                onTap: this._onSearchTap,
+                bottomSheet: FilterBottomSheet(type: widget.type, allPlace: _allPlace,)
+              )
             ),
             SliverGrid(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),
               delegate: SliverChildBuilderDelegate((context, index) {
                 return GridCard(
                   onTap: widget.onItemTap,
-                  nameThing: _data[index],
-                  buildMark: widget.buildMark,
+                  nameThing: _sortedData[index],
                 );
               },
-              childCount: _data.length)
+              childCount: _sortedData.length)
             )
           ],
         );
@@ -139,9 +99,30 @@ class CatchableViewModel {
   bool fetching;
   List<Catchable> data;
   Object error;
-  CatchableFilterState filter;
+  PRICE priceSort;
+  List<String> selectedFilter;
 
-  CatchableViewModel({this.fetching, this.data, this.error, this.filter});
+  CatchableViewModel({this.fetching, this.data, this.error, this.priceSort, this.selectedFilter});
+
+  static CatchableViewModel fromStore(Store<AppState> store, TYPE type) {
+    if (TYPE.FISH == type) {
+      return CatchableViewModel(
+        fetching: store.state.fish.fetching,
+        data: store.state.fish.fish,
+        error: store.state.fish.error,
+        priceSort: store.state.catchableFilters.priceSort,
+        selectedFilter: store.state.catchableFilters.fishPlaces
+      );
+    } else {
+      return CatchableViewModel(
+        fetching: store.state.insects.fetching,
+        data: store.state.insects.insects,
+        error: store.state.insects.error,
+        priceSort: store.state.catchableFilters.priceSort,
+        selectedFilter: store.state.catchableFilters.insectPlaces
+      );
+    }
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -151,8 +132,9 @@ class CatchableViewModel {
           fetching == other.fetching &&
           data == other.data &&
           error == other.error &&
-          filter == other.filter;
+          priceSort == other.priceSort &&
+          selectedFilter == other.selectedFilter;
 
   @override
-  int get hashCode => fetching.hashCode ^ data.hashCode ^ error.hashCode ^ filter.hashCode;
+  int get hashCode => fetching.hashCode ^ data.hashCode ^ error.hashCode ^ priceSort.hashCode ^ selectedFilter.hashCode;
 }

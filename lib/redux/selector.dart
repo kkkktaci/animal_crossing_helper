@@ -21,20 +21,37 @@ List<Catchable> filterCatchableByMonth(BuildContext context, TYPE type, int mont
   }).toList();
 }
 
-List<Catchable> getCatchableAfterFilter(BuildContext context, List<Catchable> data) {
+List<Catchable> getCatchableAfterFilter(BuildContext context, List<Catchable> data, TYPE type) {
   AppState state = StoreProvider.of<AppState>(context).state;
-  if (state.catchableFilters.priceSort == PRICE.NONE) {
-    return data;
-  }
   List<Catchable> _data = List<Catchable>.from(data);
-  _data.sort((a, b) {
-    if (state.catchableFilters.priceSort == PRICE.UPWARD) {
-      return int.parse(a.price).compareTo(int.parse(b.price));
-    } else if (state.catchableFilters.priceSort == PRICE.FAIL) {
-      return int.parse(b.price).compareTo(int.parse(a.price));
-    }
-  });
-  return _data;
+  // apply price sort
+  if (state.catchableFilters.priceSort != PRICE.NONE) {
+    _data.sort((a, b) {
+      if (state.catchableFilters.priceSort == PRICE.UPWARD) {
+        return int.parse(a.price).compareTo(int.parse(b.price));
+      } else if (state.catchableFilters.priceSort == PRICE.FAIL) {
+        return int.parse(b.price).compareTo(int.parse(a.price));
+      }
+    });
+  }
+
+  // apply place filter
+  List<String> placeFilter;
+  if (type == TYPE.FISH) {
+    placeFilter = state.catchableFilters.fishPlaces;
+  } else {
+    placeFilter = state.catchableFilters.insectPlaces;
+  }
+  if (placeFilter.length == 0) return _data;
+  return _data.where((item) => placeFilter.contains(item.activePlace)).toList();
+}
+
+List<String> getFishSelectedFilters(BuildContext context) {
+  return StoreProvider.of<AppState>(context).state.catchableFilters.fishPlaces;
+}
+
+List<String> getInsectSelectedFilters(BuildContext context) {
+  return StoreProvider.of<AppState>(context).state.catchableFilters.insectPlaces;
 }
 
 List<Animal> getAllMyFollowAnimal(BuildContext context) {
