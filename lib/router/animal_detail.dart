@@ -1,6 +1,7 @@
 import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/redux/animal/animal_actions.dart';
 import 'package:animal_crossing_helper/redux/app/app_state.dart';
+import 'package:animal_crossing_helper/widgets/like_button/like_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -24,16 +25,24 @@ class AnimalDetail extends StatelessWidget {
           appBar: AppBar(
             title: Text(animal.name, style: TextStyle(color: Colors.white)),
             actions: <Widget>[
-              InkWell(
-                customBorder: CircleBorder(side: BorderSide()),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Icon(Icons.favorite, color: vm.animal.isMarked ? Colors.red[200] : Colors.white,)),
-                  onTap: () {
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: LikeButton(
+                  size: 20,
+                  isLike: vm.animal.isMarked,
+                  builder: (like) {
+                    return Icon(
+                      Icons.favorite,
+                      color: like ? Colors.red[200] : Colors.white
+                    );
+                  },
+                  onTap: (like) {
                     if (this.animal != null) {
                       StoreProvider.of<AppState>(context)?.dispatch(ToggleAnimalMark(name: this.animal.name));
                     }
                   },
+                  animationDuration: Duration(seconds: 1),
+                ),
               )
             ],
           ),
