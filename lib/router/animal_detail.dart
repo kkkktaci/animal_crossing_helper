@@ -47,10 +47,14 @@ class AnimalDetail extends StatelessWidget {
                 padding: EdgeInsets.only(top: 16),
                 child: Column(
                   children: <Widget>[
-                    Image(
+                    Hero(
+                      tag: 'avatar_image_${animal.name}',
+                      child: Image(
                         width: 100.0,
                         height: 100.0,
-                        image: CachedNetworkImageProvider(animal.image)),
+                        image: CachedNetworkImageProvider(animal.image)
+                      ),
+                    ),
                     _buildInfo(context, vm)
                   ],
                 ),

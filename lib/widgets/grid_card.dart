@@ -22,10 +22,13 @@ class GridCard extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 8),
-            child: Image(
-              image: CachedNetworkImageProvider(nameThing.image),
-              width: 60.0,
-              height: 60.0,
+            child: Hero(
+              tag: 'avatar_image_${nameThing.name}',
+              child: Image(
+                image: CachedNetworkImageProvider(nameThing.image),
+                width: 60.0,
+                height: 60.0,
+              ),
             ),
           ),
           Padding(

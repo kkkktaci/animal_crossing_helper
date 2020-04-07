@@ -67,10 +67,14 @@ class CatchableDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image(
+                  Hero(
+                    tag: 'avatar_image_${catchable.name}',
+                    child: Image(
                       width: 100.0,
                       height: 100.0,
-                      image: CachedNetworkImageProvider(catchable.image)),
+                      image: CachedNetworkImageProvider(catchable.image)
+                    ),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 25,
