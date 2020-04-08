@@ -1,3 +1,5 @@
+import 'package:animal_crossing_helper/delegate/search_name_thing_delegate.dart';
+import 'package:animal_crossing_helper/delegate/sliver_search_bar_delegate.dart';
 import 'package:animal_crossing_helper/models/catchable.dart';
 import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/models/type.dart';
@@ -7,8 +9,6 @@ import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/filter_bottom_sheet.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
 import 'package:animal_crossing_helper/widgets/loading.dart';
-import 'package:animal_crossing_helper/widgets/search_name_thing_delegate.dart';
-import 'package:animal_crossing_helper/widgets/sliver_search_bar_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
