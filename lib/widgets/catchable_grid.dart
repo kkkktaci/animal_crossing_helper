@@ -6,36 +6,28 @@ import 'package:animal_crossing_helper/redux/price_sort.dart';
 import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/filter_bottom_sheet.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
+import 'package:animal_crossing_helper/widgets/loading.dart';
 import 'package:animal_crossing_helper/widgets/search_name_thing_delegate.dart';
 import 'package:animal_crossing_helper/widgets/sliver_search_bar_delegate.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-class CatchableGrid extends StatefulWidget {
-  Function(BuildContext, NameThing) onItemTap;
-  Function fetchData;
-  TYPE type;
-
-  CatchableGrid({this.onItemTap, this.fetchData, this.type});
-
-  @override
-  _CatchableGridState createState() => _CatchableGridState();
-}
-
-class _CatchableGridState extends State<CatchableGrid>
-    with AutomaticKeepAliveClientMixin {
+class CatchableGridPresentation extends StatelessWidget {
+  final CatchableViewModel vm;
+  final Function(BuildContext, NameThing) onItemTap;
+  final TYPE type;
+  CatchableGridPresentation({Key key, this.vm, this.onItemTap, this.type}) : super(key: key);
 
   List<Catchable> _originData;
   List<Catchable> _sortedData;
   List<String> _allPlace;
 
-  void _onSearchTap() async {
+  void _onSearchTap(BuildContext context) async {
     if (_originData.length <= 0) return;
     await showSearch(
       context: context,
-      delegate: SearchNameThingDelegate(_originData, widget.onItemTap)
+      delegate: SearchNameThingDelegate(_originData, onItemTap)
     );
   }
 
@@ -49,50 +41,59 @@ class _CatchableGridState extends State<CatchableGrid>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    if (vm.fetching && vm.data.length == 0) {
+      return Loading();
+    }
+
+    if (_originData == null) _originData = vm.data;
+    this._sortedData = getCatchableAfterFilter(context, vm.data, type);
+    this._allPlace = _getAllPlace(vm.data);
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverPersistentHeader(
+          floating: true,
+          delegate: SliverSearchBarDelegate(
+            onTap: this._onSearchTap,
+            bottomSheet: FilterBottomSheet(type: type, allPlace: _allPlace,)
+          )
+        ),
+        SliverGrid(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return GridCard(
+              onTap: onItemTap,
+              nameThing: _sortedData[index],
+            );
+          },
+          childCount: _sortedData.length)
+        )
+      ],
+    );
+  }
+}
+
+class CatchableGrid extends StatelessWidget {
+  Function(BuildContext, NameThing) onItemTap;
+  Function fetchData;
+  TYPE type;
+
+  CatchableGrid({this.onItemTap, this.fetchData, this.type});
+
+  @override
+  Widget build(BuildContext context) {
     return StoreConnector<AppState, CatchableViewModel>(
       // distinct: true,
-      converter: (store) => CatchableViewModel.fromStore(store, widget.type),
-      onInit: (store) => store.dispatch(widget.fetchData()),
+      converter: (store) => CatchableViewModel.fromStore(store, type),
+      onInit: (store) => store.dispatch(fetchData()),
       builder: (context, vm) {
-        if (vm.fetching && vm.data.length == 0) {
-          return Container(
-            width: 50,
-            height: 50,
-            child: FlareActor('assets/loading.flr', animation: 'Alarm',),
-          );
-        }
-
-        if (_originData == null) _originData = vm.data;
-        this._sortedData = getCatchableAfterFilter(context, vm.data, widget.type);
-        this._allPlace = _getAllPlace(vm.data);
-        return CustomScrollView(
-          slivers: <Widget>[
-            SliverPersistentHeader(
-              floating: true,
-              delegate: SliverSearchBarDelegate(
-                onTap: this._onSearchTap,
-                bottomSheet: FilterBottomSheet(type: widget.type, allPlace: _allPlace,)
-              )
-            ),
-            SliverGrid(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return GridCard(
-                  onTap: widget.onItemTap,
-                  nameThing: _sortedData[index],
-                );
-              },
-              childCount: _sortedData.length)
-            )
-          ],
+        return CatchableGridPresentation(
+          vm: vm,
+          onItemTap: onItemTap,
+          type: type,
         );
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class CatchableViewModel {

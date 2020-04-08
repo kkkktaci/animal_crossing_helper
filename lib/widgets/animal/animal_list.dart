@@ -30,7 +30,7 @@ class _AnimalListState extends State<AnimalList> with AutomaticKeepAliveClientMi
     Navigator.of(context).pushNamed('/animal_detail', arguments: catchable);
   }
 
-  void _onSearchTap() async {
+  void _onSearchTap(BuildContext context) async {
     if (_data.length <= 0) return;
     await showSearch(
       context: context,

@@ -25,7 +25,7 @@ class SliverSearchBarDelegate extends SliverPersistentHeaderDelegate {
       Expanded(
         child: OutlineButton(
           highlightedBorderColor: Theme.of(context).primaryColor,
-          onPressed: () => this.onTap(),
+          onPressed: () => this.onTap(context),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Text('搜索', style: Theme.of(context).textTheme.display2,),
         ),
