@@ -3,9 +3,12 @@ import 'package:animal_crossing_helper/delegate/sliver_search_bar_delegate.dart'
 import 'package:animal_crossing_helper/models/name_thing.dart';
 import 'package:animal_crossing_helper/models/animal.dart';
 import 'package:animal_crossing_helper/redux/animal/animal_actions.dart';
+import 'package:animal_crossing_helper/redux/race_filter/filter_state.dart';
+import 'package:animal_crossing_helper/redux/selector.dart';
 import 'package:animal_crossing_helper/widgets/birthday_notification.dart';
 import 'package:animal_crossing_helper/widgets/grid_card.dart';
 import 'package:animal_crossing_helper/widgets/loading.dart';
+import 'package:animal_crossing_helper/widgets/race_filter_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -22,17 +25,11 @@ class AnimalListPresentation extends StatelessWidget {
   }
 
   void _onSearchTap(BuildContext context) async {
-    if (_data.length <= 0) return;
+    List<Animal> animal = getOriginAnimal(context);
+    if (animal != null && animal.length <= 0) return;
     await showSearch(
       context: context,
-      delegate: SearchNameThingDelegate(_data, _gotoDetail)
-    );
-  }
-
-  Widget _buildBottomSheet(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
-      color: Colors.red,
+      delegate: SearchNameThingDelegate(animal, _gotoDetail)
     );
   }
 
@@ -47,13 +44,12 @@ class AnimalListPresentation extends StatelessWidget {
       return Loading();
     }
     
-    this._data = vm.data;
+    this._data = getAnimalAfterFilter(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverPersistentHeader(
           floating: true,
-          // delegate: SliverSearchBarDelegate(onTap: this._onSearchTap, bottomSheet: _buildBottomSheet(context))
-          delegate: SliverSearchBarDelegate(onTap: this._onSearchTap)
+          delegate: SliverSearchBarDelegate(onTap: this._onSearchTap, bottomSheet: RaceFilterBottomSheet())
         ),
         SliverGrid(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.0),
@@ -101,22 +97,28 @@ class AnimalViewModel {
   bool fetching;
   List<Animal> data;
   Object error;
-  // FilterState filter;
+  RaceFilterState raceFilter;
 
-  AnimalViewModel({this.fetching, this.data, this.error});
+  AnimalViewModel({this.fetching, this.data, this.error, this.raceFilter});
 
   static AnimalViewModel fromStore(Store<AppState> store) =>
-    AnimalViewModel(fetching: store.state.animal.fetching, data: store.state.animal.animal, error: store.state.animal.error);
+    AnimalViewModel(
+      fetching: store.state.animal.fetching,
+      data: store.state.animal.animal,
+      error: store.state.animal.error,
+      raceFilter: store.state.raceFilter
+    );
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is AnimalViewModel &&
-          runtimeType == other.runtimeType &&
-          fetching == other.fetching &&
-          data == other.data &&
-          error == other.error;
+        runtimeType == other.runtimeType &&
+        fetching == other.fetching &&
+        data == other.data &&
+        error == other.error &&
+        raceFilter == other.raceFilter;
 
   @override
-  int get hashCode => fetching.hashCode ^ data.hashCode ^ error.hashCode;
+  int get hashCode => fetching.hashCode ^ data.hashCode ^ error.hashCode ^ raceFilter.hashCode;
 }

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+/// 价格排序和捕获地点过滤
 class FilterBottomSheet extends StatefulWidget {
   TYPE type;
   List<String> allPlace;

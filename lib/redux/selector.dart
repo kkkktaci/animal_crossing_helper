@@ -54,6 +54,37 @@ List<String> getInsectSelectedFilters(BuildContext context) {
   return StoreProvider.of<AppState>(context).state.catchableFilters.insectPlaces;
 }
 
+List<String> getAllRace(BuildContext context) {
+  List<Animal> allAnimal = StoreProvider.of<AppState>(context).state.animal.animal;
+  Set<String> race = Set<String>();
+  allAnimal.forEach((animal) {
+    if (animal.race.trim().isNotEmpty && !race.contains(animal.race)) race.add(animal.race.trim());
+  });
+  return race.toList();
+}
+
+List<Animal> getAnimalAfterFilter(BuildContext context) {
+  AppState state = StoreProvider.of<AppState>(context).state;
+  String selectedRace = state.raceFilter.selected;
+  if (selectedRace == null) {
+    // 当前没有选择任何过滤
+    return state.animal.animal;
+  }
+  return state.animal.animal.where((item) => item.race.trim() == selectedRace).toList();
+}
+
+List<Catchable> getOriginFish(BuildContext context) {
+  return StoreProvider.of<AppState>(context).state.fish.fish;
+}
+
+List<Catchable> getOriginInsect(BuildContext context) {
+  return StoreProvider.of<AppState>(context).state.insects.insects;
+}
+
+List<Animal> getOriginAnimal(BuildContext context) {
+  return StoreProvider.of<AppState>(context).state.animal.animal;
+}
+
 List<Animal> getAllMyFollowAnimal(BuildContext context) {
   AppState state = StoreProvider.of<AppState>(context).state;
   return state.animal.animal.where((a) => a.isMarked).toList();

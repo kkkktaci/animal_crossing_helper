@@ -19,18 +19,21 @@ class CatchableGridPresentation extends StatelessWidget {
   final TYPE type;
   CatchableGridPresentation({Key key, this.vm, this.onItemTap, this.type}) : super(key: key);
 
-  List<Catchable> _originData;
   List<Catchable> _sortedData;
   List<String> _allPlace;
 
   void _onSearchTap(BuildContext context) async {
-    if (_originData.length <= 0) return;
+    List<Catchable> catchable;
+    if (type == TYPE.FISH) catchable = getOriginFish(context);
+    else catchable = getOriginInsect(context);
+    if (catchable != null && catchable.length <= 0) return;
     await showSearch(
       context: context,
-      delegate: SearchNameThingDelegate(_originData, onItemTap)
+      delegate: SearchNameThingDelegate(catchable, onItemTap)
     );
   }
 
+  // FIXME: put this in selector
   List<String> _getAllPlace(List<Catchable> data) {
     if (data == null) return [];
     if (this._allPlace != null && this._allPlace.length > 0) return this._allPlace;
@@ -45,7 +48,6 @@ class CatchableGridPresentation extends StatelessWidget {
       return Loading();
     }
 
-    if (_originData == null) _originData = vm.data;
     this._sortedData = getCatchableAfterFilter(context, vm.data, type);
     this._allPlace = _getAllPlace(vm.data);
     return CustomScrollView(

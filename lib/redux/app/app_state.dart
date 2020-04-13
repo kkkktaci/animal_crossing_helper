@@ -5,6 +5,7 @@ import 'package:animal_crossing_helper/redux/catchable_filters/filter_state.dart
 import 'package:animal_crossing_helper/redux/fish/fish_state.dart';
 import 'package:animal_crossing_helper/redux/insect/insect_state.dart';
 import 'package:animal_crossing_helper/redux/location/location_state.dart';
+import 'package:animal_crossing_helper/redux/race_filter/filter_state.dart';
 
 class AppState {
   FishState fish;
@@ -12,8 +13,9 @@ class AppState {
   AnimalState animal;
   LocationState location;
   CatchableFilterState catchableFilters;
+  RaceFilterState raceFilter;
 
-  AppState({this.fish, this.insects, this.animal, this.location, this.catchableFilters});
+  AppState({this.fish, this.insects, this.animal, this.location, this.catchableFilters, this.raceFilter});
 
   factory AppState.initial() =>
     AppState(
@@ -21,12 +23,18 @@ class AppState {
       insects: InsectState.initial(),
       animal: AnimalState.initial(),
       location: LocationState.initial(),
-      catchableFilters: CatchableFilterState.initial()
+      catchableFilters: CatchableFilterState.initial(),
+      raceFilter: RaceFilterState.initial()
     );
 
   @override
   int get hashCode =>
-    fish.hashCode ^ insects.hashCode ^ animal.hashCode ^ location.hashCode ^ catchableFilters.hashCode;
+    fish.hashCode ^
+    insects.hashCode ^
+    animal.hashCode ^
+    location.hashCode ^
+    catchableFilters.hashCode ^
+    raceFilter.hashCode;
 
   @override
   operator ==(Object other) =>
@@ -37,7 +45,8 @@ class AppState {
     insects == other.insects &&
     animal == other.animal &&
     location == other.location &&
-    catchableFilters == other.catchableFilters;
+    catchableFilters == other.catchableFilters &&
+    raceFilter == other.raceFilter;
 
   // for redux persist
   static AppState fromJson(dynamic json) {
@@ -58,7 +67,8 @@ class AppState {
       insects: InsectState.fromJson(jsonDecode(json['insects'])),
       animal: AnimalState.fromJson(jsonDecode(json['animal'])),
       location: location,
-      catchableFilters: CatchableFilterState.initial()
+      catchableFilters: CatchableFilterState.initial(),
+      raceFilter: RaceFilterState.initial()
     );
   }
 
@@ -68,6 +78,6 @@ class AppState {
 
   @override
   String toString() {
-    return 'AppState{catchableFilter: $catchableFilters, location: $location, fish: $fish, insects: $insects, animal: $animal}';
+    return 'AppState{raceFilter: $raceFilter, catchableFilter: $catchableFilters, location: $location, fish: $fish, insects: $insects, animal: $animal}';
   }
 }
